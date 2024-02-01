@@ -17,6 +17,9 @@ app.use("/product", producturl);
 const userurl = require("./routes/userroute");
 app.use("/user", userurl);
 
+app.get("/", (req, res) => res.json("Hello World!"));
+
+
 const PORT = process.env.REACT_APP_SERVER_DOMIN;
 
 //mongodb connection
