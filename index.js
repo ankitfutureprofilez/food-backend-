@@ -130,7 +130,9 @@ const PORT = process.env.REACT_APP_SERVER_DOMIN;
 // console.log(process.env.STRIPE_SECRET_KEY)
 // console.log(process.env.FRONTEND_URL)
 
-
+app.get("/",(req,res)=>{
+  res.json("hello weeje")
+})
 const stripe  = new Stripe(process.env.STRIPE_SECRET_KEY)
 // console.log("stripe",stripe)
 
