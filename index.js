@@ -136,47 +136,19 @@ app.get("/",(req,res)=>{
 const stripe  = new Stripe(process.env.STRIPE_SECRET_KEY)
 // console.log("stripe",stripe)
 
-app.post("/create-checkout-session",async(req,res)=>{
+app.post('/create-checkout-session', async (req, res) => {
+  const { items } = req.body;
 
-     try{
-      const params = {
-          submit_type : 'pay',
-          mode : "payment",
-          payment_method_types : ['card'],
-          billing_address_collection : "auto",
-          shipping_options : [{shipping_rate : "shr_1NtBj1SDZC0xqkr7pgrkK0QI"}],
+  // Create a Checkout Session
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: items,
+    mode: 'payment',
+    success_url: 'https://food-delivery-websitess.netlify.app/success',
+    cancel_url: 'https://food-delivery-websitess.netlify.app/cancel',
+  });
 
-          line_items : req.body.map((item)=>{
-            return{
-              price_data : {
-                currency : "inr",
-                product_data : {
-                  name : item.name,
-                images : [item.image]
-                },
-                unit_amount : item.price * 100,
-              },
-              adjustable_quantity : {
-                enabled : true,
-                minimum : 1,
-              },
-              quantity : item.qty
-            }
-          }),
-
-          success_url : `${process.env.FRONTEND_URL}/success`,
-          cancel_url : `${process.env.FRONTEND_URL}/cancel`,
-
-      }
-
-      const session = await stripe.checkout.sessions.create(params)
-      console.log("session",session)
-      res.status(200).json(session.id)
-     }
-     catch (err){
-        res.status(err.statusCode || 500).json(err.message)
-     }
-
-})
+  res.json({ sessionId: session.id });
+});
 // //server is ruuning
 app.listen(PORT, () => console.log("server is running at port : " + PORT));
