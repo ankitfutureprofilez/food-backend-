@@ -62,6 +62,7 @@ exports.Login = async (req, res) => {
       user: user,
       msg: "Login successfully !!",
       // token: token
+      
     });
   } catch (error) {
     console.log(error);
