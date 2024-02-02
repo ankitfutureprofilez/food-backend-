@@ -1,19 +1,14 @@
-const users = require("../model/user");
+const users = require("../Model/users");
 
 exports.usersignup = async (req, res) => {
   // console.log("req.body", req.body);
   try {
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      confirmPassword,
-      image,
-    } = req.body;
-    const lastuserid = await users.findOne({}, "userId").sort({ userId: -1 });console.log("lastuserid",lastuserid)
+    const { firstName, lastName, email, password, confirmPassword, image } =
+      req.body;
+    const lastuserid = await users.findOne({}, "userId").sort({ userId: -1 });
+    console.log("lastuserid", lastuserid);
     const newUserId = lastuserid ? lastuserid.userId + 1 : 1;
-    console.log("newwws",newUserId)
+    console.log("newwws", newUserId);
     let isAlready = await users.findOne({ firstName: firstName });
     if (isAlready) {
       return res.status(400).json({
@@ -51,7 +46,7 @@ exports.Login = async (req, res) => {
     const { email, password } = req.body;
     const user = await users.find({ email: email });
     const isPassword = await users.find({ password: password });
-    console.log("user",user, "isPassword",isPassword);
+    console.log("user", user, "isPassword", isPassword);
     if (!user || !isPassword) {
       res.json({
         status: false,
