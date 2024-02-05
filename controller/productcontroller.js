@@ -1,35 +1,45 @@
 const product = require("../Model/products");
-
 exports.productadd = async (req, res) => {
   try {
-    const { name, price, category, description,image } = req.body;
+    const userId = req.user[0].userId;
+    const { name, price, category, description, image } = req.body;
+    if (!userId) {
+      return res.status(400).json({
+        msg: "User information not found in the request or userId is undefined",
+        status: false,
+      });
+    }
     const record = new product({
       name: name,
       price: price,
       category: category,
       description: description,
-       image: image,
-      // role: role,
+      image: image,
+      userId: userId,
     });
     const result = await record.save();
-    res.json({
+    res.status(200).json({
       data: result,
-      msg: "Add product succesfully",
-      status: 200,
+      msg: "Product added successfully",
+      status: true,
     });
   } catch (error) {
-    res.json({
+    console.error("Error:", error);
+    res.status(500).json({
       error: error,
-      msg: "not add product",
-      status: 500,
+      msg: "Failed to add product",
+      status: false,
     });
   }
 };
 
+
+
 exports.productlist = async (req, res) => {
   try {
-    const record = await product.find({});
-    // console.log("record", record);
+    const restaurant =  req.user.userId;
+    const record = await product.find({restaurant:restaurant});
+    console.log("record", record);
     res.json({
       data: record,
       msg: "product list",

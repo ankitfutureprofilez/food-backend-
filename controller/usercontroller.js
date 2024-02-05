@@ -1,4 +1,5 @@
 const users = require("../Model/users");
+var jwt = require('jsonwebtoken');
 
 exports.usersignup = async (req, res) => {
   // console.log("req.body", req.body);
@@ -25,6 +26,8 @@ exports.usersignup = async (req, res) => {
       userId: newUserId,
       image: image,
     });
+
+    //     console.log(token)
     const result = await record.save();
     res.json({
       data: result,
@@ -53,16 +56,16 @@ exports.Login = async (req, res) => {
         msg: "Invalid login or password",
       });
     }
-    // const token = jwt.sign({ user }, process.env.JWT_SECRET, {
-    //     expiresIn: "5h",
-    // });
-    //     console.log(token)
+    const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+      expiresIn: "5h",
+    });
+    console.log(token)
     res.json({
       status: 200,
       user: user,
       msg: "Login successfully !!",
-      // token: token
-      
+      token: token
+
     });
   } catch (error) {
     console.log(error);

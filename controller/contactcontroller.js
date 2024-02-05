@@ -19,7 +19,7 @@ exports.contacts = async (req, res) => {
         })
 
     } catch (error) {
-        console.log(error);
+        console.log("error",error);
         res.json({
             error: error,
             msg: "Nort contact"

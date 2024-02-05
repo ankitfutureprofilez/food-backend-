@@ -17,6 +17,10 @@ app.use("/product", producturl);
 const userurl = require("./routes/userroute");
 app.use("/user", userurl);
 
+const returaneturl  =require("./routes/restaurantroute");
+
+app.use("/restaurant", returaneturl);
+
 const PORT = process.env.REACT_APP_SERVER_DOMIN;
 
 //mongodb connection
