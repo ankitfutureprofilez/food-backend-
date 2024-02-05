@@ -6,7 +6,10 @@ const restaturanet = mongoose.Schema({
     image: String,
     userId: Number,
     resId: Number,
-    location: String
+    location: String,
+    category:String,
+    staff:String,
+    timing:String
 })
 
 module.exports = mongoose.model("restaurant", restaturanet);

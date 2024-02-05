@@ -138,8 +138,7 @@ app.get("/",(req,res)=>{
   res.json("hello weeje")
 })
 const stripe  = new Stripe(process.env.STRIPE_SECRET_KEY)
-// console.log("stripe",stripe)
-
+//  console.log("stripe",stripe)
 app.post("/create-checkout-session",async(req,res)=>{
 console.log("req",req)
      try{

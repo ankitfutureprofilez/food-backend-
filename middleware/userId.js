@@ -6,14 +6,11 @@ const findUserById = async (req, res, next) => {
     try {
         const userId = req.params.userId;
         // console.log("userId", userId);
-
         const user = await restureatent.findOne({ userId });
         // console.log("user", user);
-
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-
         req.restaurant = user;
         next();
     } catch (error) {
@@ -21,5 +18,7 @@ const findUserById = async (req, res, next) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
 
 module.exports = findUserById;
