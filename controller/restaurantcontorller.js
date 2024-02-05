@@ -1,11 +1,11 @@
 const restaurant = require("../Model/restaurant");
 
 exports.addRestaurant = async (req, res) => {
-  console.log("Request Body:", req.body);
+//   console.log("Request Body:", req.body);
 
   try {
     const userId = req.user[0].userId;
-    console.log("UserId", userId);
+    // console.log("UserId", userId);
 
     const { O_name, location, r_name, description, image } = req.body;
 
@@ -19,7 +19,7 @@ exports.addRestaurant = async (req, res) => {
       newUserId = 1;
     }
 
-    console.log("New UserId:", newUserId);
+    // console.log("New UserId:", newUserId);
 
     const isAlready = await restaurant.findOne({ r_name: r_name });
 
@@ -42,7 +42,7 @@ exports.addRestaurant = async (req, res) => {
 
     const result = await record.save();
 
-    console.log("Result:", result);
+    // console.log("Result:", result);
 
     res.status(200).json({
       data: result,

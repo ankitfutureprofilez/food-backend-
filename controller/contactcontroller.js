@@ -1,7 +1,7 @@
 const contact = require("../Model/contact")
 
 exports.contacts = async (req, res) => {
-    console.log("req.body", req.body)
+    // console.log("req.body", req.body)
     try {
         const { email,     message
             , name } = req.body;
@@ -11,7 +11,7 @@ exports.contacts = async (req, res) => {
             message: message
         })
         const result = await record.save();
-        console.log("result", result);
+        // console.log("result", result);
         res.json({
             data: record,
             msg: "contact",

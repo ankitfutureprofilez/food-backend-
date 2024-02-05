@@ -39,7 +39,7 @@ exports.productlist = async (req, res) => {
   try {
     const restaurant =  req.user.userId;
     const record = await product.find({restaurant:restaurant});
-    console.log("record", record);
+    // console.log("record", record);
     res.json({
       data: record,
       msg: "product list",
