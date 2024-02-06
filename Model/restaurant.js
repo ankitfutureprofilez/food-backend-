@@ -9,7 +9,8 @@ const restaturanet = mongoose.Schema({
     location: String,
     category:String,
     staff:String,
-    timing:String
+    timing:String,
+    coordinates:String,
 })
 
 module.exports = mongoose.model("restaurant", restaturanet);
