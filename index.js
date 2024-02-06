@@ -9,7 +9,14 @@ const dotenv = require("dotenv");
 require("./Config");
 
 dotenv.config();
-app.use(cors());
+const corsOptions = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, 
+};
+
+
+app.use(cors(corsOptions));
 app.use(express.json({ limit: "10mb" }));
 
 const producturl = require("./routes/productroute");

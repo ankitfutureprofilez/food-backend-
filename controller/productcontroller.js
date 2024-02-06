@@ -36,22 +36,19 @@ exports.productadd = async (req, res) => {
 
 
 exports.productlist = async (req, res) => {
-  try {
-    const restaurant =  req.user.userId;
-    const record = await product.find({restaurant:restaurant});
-    // console.log("record", record);
     res.json({
-      data: record,
+      data: "test",
       msg: "product list",
       status: 200,
     });
-  } catch (error) {
-    res.json({
-      error: error,
-      msg: "not list product",
-      status: 500,
-    });
-  }
+    // const restaurant =  req.user.userId;
+    // const record = await product.find({restaurant:restaurant});
+    // // console.log("record", record);
+    // res.json({
+    //   data: record,
+    //   msg: "product list",
+    //   status: 200,
+    // });
 };
 
 

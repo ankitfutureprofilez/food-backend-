@@ -1,5 +1,38 @@
 const users = require("../Model/users");
 var jwt = require('jsonwebtoken');
+const catchAsync = require("../utils/catchAsync");
+
+const SECRET_ACCESS = process.env && process.env.SECRET_ACCESS;
+const key = process && process.env && process.env.SECRET_ACCESS;
+
+const signToken = async (id) => {
+  const token = jwt.sign({id}, SECRET_ACCESS, {expiresIn:'58m'});
+  return token
+}
+
+
+exports.validateToken = catchAsync ( async (req, res, next) => {
+
+  let authHeader = req.headers.Authorization || req.headers.authorization;
+
+  if (authHeader && authHeader.startsWith("Bearer")) {
+    let token = authHeader.split(" ")[1];
+    if (!token) {
+      next( new AppError("User is not authorized or token is missing", 403));
+    }
+    const decode = await promisify(jwt.verify)(token, key);
+    if(decode){ 
+      let result = await users.findById(decode.id);
+      req.user = result;
+      next(); 
+    } else { 
+      next(new AppError('User is not authorized', 401)); 
+    }
+  } else { 
+    next( new AppError("Token is missing", 401));
+  }
+});
+
 
 exports.usersignup = async (req, res) => {
   // console.log("req.body", req.body);
@@ -56,9 +89,8 @@ exports.Login = async (req, res) => {
         msg: "Invalid login or password",
       });
     }
-    const token = jwt.sign({ user }, process.env.JWT_SECRET, {
-      expiresIn: "5h",
-    });
+    const token = await signToken(user._id);
+
     // console.log(token)
     res.json({
       status: 200,
