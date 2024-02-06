@@ -63,7 +63,6 @@ exports.Login = async (req, res) => {
       });
     }
     const token = await signToken(user._id);
-    // console.log("token", token)
     res.json({
       status: 200,
       user: user,
