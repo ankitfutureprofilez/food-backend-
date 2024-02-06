@@ -1,7 +1,7 @@
 const product = require("../Model/Product");
 exports.productadd = async (req, res) => {
   try {
-    const userId = req.user[0].userId;
+    // const userId = req.user[0].userId;
     const { name, price, category, description, image } = req.body;
     if (!userId) {
       return res.status(400).json({
@@ -15,7 +15,7 @@ exports.productadd = async (req, res) => {
       category: category,
       description: description,
       image: image,
-      userId: userId,
+      // userId: userId,
     });
     const result = await record.save();
     res.status(200).json({

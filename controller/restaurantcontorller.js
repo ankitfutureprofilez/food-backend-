@@ -4,19 +4,19 @@ exports.addRestaurant = async (req, res) => {
     // console.log("Request Body:", req.body);
     // console.log("Request Body:", req.user);
     try {
-        const userId = req.user[0].userId;
-        console.log("UserId", userId);
+        // const userId = req.user[0].userId;
+        // console.log("UserId", userId);
         const { O_name, location, r_name, description, image, category,
             staff,
             timing, codinator } = req.body;
 
-            if (!userId) {
+            // if (!userId) {
 
-                return res.status(400).json({
-                  msg: "User information not found in the request or userId is undefined",
-                  status: false,
-                });
-              }
+            //     return res.status(400).json({
+            //       msg: "User information not found in the request or userId is undefined",
+            //       status: false,
+            //     });
+            //   }
 
         const lastRestaurant = await restaurant.findOne({}, "resId").sort({ resId: -1 });
 

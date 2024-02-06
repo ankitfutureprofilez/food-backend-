@@ -6,5 +6,5 @@ const {validateToken} = require("../controller/usercontroller")
 
 const restaurantcontroller = require("../controller/restaurantcontorller");
 
-resturantoroute.post("/add", userrouter,restaurantcontroller.addRestaurant);
+resturantoroute.post("/add",restaurantcontroller.addRestaurant);
 module.exports = resturantoroute;
