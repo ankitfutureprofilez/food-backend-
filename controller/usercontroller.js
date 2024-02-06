@@ -3,36 +3,11 @@ var jwt = require('jsonwebtoken');
 const catchAsync = require("../utils/catchAsync");
 
 const SECRET_ACCESS = process.env && process.env.SECRET_ACCESS;
-const key = process && process.env && process.env.SECRET_ACCESS;
 
 const signToken = async (id) => {
-  const token = jwt.sign({id}, SECRET_ACCESS, {expiresIn:'58m'});
+  const token = jwt.sign({ id }, SECRET_ACCESS, { expiresIn: '58m' });
   return token
 }
-
-
-exports.validateToken = catchAsync ( async (req, res, next) => {
-
-  let authHeader = req.headers.Authorization || req.headers.authorization;
-
-  if (authHeader && authHeader.startsWith("Bearer")) {
-    let token = authHeader.split(" ")[1];
-    if (!token) {
-      next( new AppError("User is not authorized or token is missing", 403));
-    }
-    const decode = await promisify(jwt.verify)(token, key);
-    if(decode){ 
-      let result = await users.findById(decode.id);
-      req.user = result;
-      next(); 
-    } else { 
-      next(new AppError('User is not authorized', 401)); 
-    }
-  } else { 
-    next( new AppError("Token is missing", 401));
-  }
-});
-
 
 exports.usersignup = async (req, res) => {
   // console.log("req.body", req.body);
@@ -40,9 +15,9 @@ exports.usersignup = async (req, res) => {
     const { firstName, lastName, email, password, confirmPassword, image } =
       req.body;
     const lastuserid = await users.findOne({}, "userId").sort({ userId: -1 });
-    console.log("lastuserid", lastuserid);
+    // console.log("lastuserid", lastuserid);
     const newUserId = lastuserid ? lastuserid.userId + 1 : 1;
-    console.log("newwws", newUserId);
+    // console.log("newwws", newUserId);
     let isAlready = await users.findOne({ firstName: firstName });
     if (isAlready) {
       return res.status(400).json({
@@ -59,8 +34,6 @@ exports.usersignup = async (req, res) => {
       userId: newUserId,
       image: image,
     });
-
-    //     console.log(token)
     const result = await record.save();
     res.json({
       data: result,
@@ -90,8 +63,7 @@ exports.Login = async (req, res) => {
       });
     }
     const token = await signToken(user._id);
-
-    // console.log(token)
+    // console.log("token", token)
     res.json({
       status: 200,
       user: user,

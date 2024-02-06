@@ -37,8 +37,8 @@ exports.productadd = async (req, res) => {
 
 
 exports.productlist = async (req, res) => {
-  const restaurant = req.user.userId;
-  const record = await product.find({ restaurant: restaurant });
+  // const restaurant = req.user.userId;
+  const record = await product.find({  });
   console.log("record", record);
   res.json({
     data: record,

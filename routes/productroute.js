@@ -1,11 +1,12 @@
 const routes = require("express").Router();
-const {validateToken} = require("../controller/usercontroller")
+const validateToken =  require("../middleware/Auth")
+// const {validateToken} = require("../controller/usercontroller")
 const productcontroller = require("../controller/productcontroller")
 const contactcontroller = require("../controller/contactcontroller")
 
-routes.post("/uploadproduct", validateToken, productcontroller.productadd);
+routes.post("/uploadproduct", validateToken,productcontroller.productadd);
 
-routes.get('/productlist', validateToken, productcontroller.productlist);
+routes.get('/productlist', productcontroller.productlist);
 
 routes.post("/contact", contactcontroller.contacts)
 
