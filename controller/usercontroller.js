@@ -1,13 +1,45 @@
 const users = require("../Model/User");
 var jwt = require('jsonwebtoken');
 const catchAsync = require("../utils/catchAsync");
+const { promisify } = require('util');
+const SECRET_ACCESS = process && process.env && process.env.SECRET_ACCESS;
+const key = process && process.env && process.env.SECRET_ACCESS;
+// console.log("SECRET_ACCESS", SECRET_ACCESS)
+// console.log("SkeyS", key)
 
-const SECRET_ACCESS = process.env && process.env.SECRET_ACCESS;
 
+if (!SECRET_ACCESS || !key) {
+  console.error('Error: SECRET_ACCESS or JWT_SECRET environment variables are not set.');
+  process.exit(1);
+}
 const signToken = async (id) => {
   const token = jwt.sign({ id }, SECRET_ACCESS, { expiresIn: '58m' });
-  return token
+  return token;
 }
+
+
+exports.validateToken = catchAsync(async (req, res, next) => {
+
+  let authHeader = req.headers.Authorization || req.headers.authorization;
+
+  if (authHeader && authHeader.startsWith("Bearer")) {
+    let token = authHeader.split(" ")[1];
+    if (!token) {
+      next(new AppError("User is not authorized or token is missing", 403));
+    }
+    const decode = await promisify(jwt.verify)(token, key);
+    if (decode) {
+      let result = await users.findById(decode.id);
+      req.user = result;
+      next();
+    } else {
+      next(new AppError('User is not authorized', 401));
+    }
+  } else {
+    next(new AppError("Token is missing", 401));
+  }
+});
+
 
 exports.usersignup = async (req, res) => {
   // console.log("req.body", req.body);
@@ -35,6 +67,7 @@ exports.usersignup = async (req, res) => {
       image: image,
     });
     const result = await record.save();
+    // console.log("resultjson",result)
     res.json({
       data: result,
       status: 200,
@@ -63,6 +96,8 @@ exports.Login = async (req, res) => {
       });
     }
     const token = await signToken(user._id);
+    // console.log("token", token)
+    // console.log("uyser", user)
     res.json({
       status: 200,
       user: user,

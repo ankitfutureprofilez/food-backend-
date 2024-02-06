@@ -1,30 +1,29 @@
-const jwt = require('jsonwebtoken');
-const { promisify } = require('util'); // Import the promisify function
-const catchAsync = require("../utils/catchAsync");
-const users = require("../Model/User"); 
+const jwt = require("jsonwebtoken");
 
-require('dotenv').config();
-const SECRET_ACCESS = process.env && process.env.SECRET_ACCESS;
+require('dotenv').config()
 
-const validateToken = catchAsync(async (req, res, next) => {
-    let authHeader = req.headers.Authorization || req.headers.authorization;
 
-    if (authHeader && authHeader.startsWith("Bearer")) {
-        let token = authHeader.split(" ")[1];
-        if (!token) {
-            next(new AppError("User is not authorized or token is missing", 403));
-        }
-        const decode = await promisify(jwt.verify)(token, SECRET_ACCESS);
-        if (decode) {
-            let result = await users.findById(users.id);
-            req.user = result;
-            next();
-        } else {
-            next(new AppError('User is not authorized', 401));
-        }
-    } else {
-        next(new AppError("Token is missing", 401));
+const verifyUserToken = (req, res, next) => {
+    next();
+    if (!req.headers.authorization) {
+        return res.status(401).json("Unauthorized request");
     }
-});
+    const token = req.headers["authorization"].split(" ")[1];
+    //  console.log(token)
+    if (!token) {
+        return res.status(401).json("Access denied. No token provided.");
+    }
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded.user;
+        next();
+    } catch (err) {
+        res.json({
+            msg: "Invaild token",
+            status: 401,
+            err: err
+        })
+    }
+};
 
-module.exports = validateToken;
+module.exports = verifyUserToken;

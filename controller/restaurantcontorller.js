@@ -1,13 +1,22 @@
 const restaurant = require("../Model/Restaurant");
 
 exports.addRestaurant = async (req, res) => {
-    console.log("Request Body:", req.body);
+    // console.log("Request Body:", req.body);
+    // console.log("Request Body:", req.user);
     try {
-        // const userId = req.user.userId;
-        // console.log("UserId", userId);
+        const userId = req.user[0].userId;
+        console.log("UserId", userId);
         const { O_name, location, r_name, description, image, category,
             staff,
-            timing } = req.body;
+            timing, codinator } = req.body;
+
+            if (!userId) {
+
+                return res.status(400).json({
+                  msg: "User information not found in the request or userId is undefined",
+                  status: false,
+                });
+              }
 
         const lastRestaurant = await restaurant.findOne({}, "resId").sort({ resId: -1 });
 
@@ -19,7 +28,7 @@ exports.addRestaurant = async (req, res) => {
             newUserId = 1;
         }
 
-        console.log("New UserId:", newUserId);
+        // console.log("New UserId:", newUserId);
 
         // const isAlready = await restaurant.findOne({ r_name: r_name });
 
@@ -37,12 +46,14 @@ exports.addRestaurant = async (req, res) => {
             description: description,
             image: image,
             resId: newUserId,
+            userId:userId,
             category: category,
             staff: staff,
-            timing: timing
+            timing: timing,
+            codinator:codinator
         });
         const result = await record.save();
-        console.log("Result:", result);
+        // console.log("Result:", result);
         res.status(200).json({
             data: result,
             status: true,

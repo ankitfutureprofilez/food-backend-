@@ -179,10 +179,10 @@ console.log("req",req)
           cancel_url : `${process.env.FRONTEND_URL}/cancel`,
 
       }
-      console.log("params",params)
+      // console.log("params",params)
 
       const session = await stripe.checkout.sessions.create(params)
-      console.log("session",session)
+      // console.log("session",session)
       res.status(200).json(session.id)
      }
      catch (err){

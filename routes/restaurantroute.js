@@ -1,6 +1,10 @@
-const routess = require("express").Router();
-const validateToken =  require("../middleware/Auth")
+const resturantoroute = require("express").Router();
+
+const userrouter =  require("../middleware/Auth")
+
+const {validateToken} = require("../controller/usercontroller")
 
 const restaurantcontroller = require("../controller/restaurantcontorller");
-routess.post("/add",restaurantcontroller.addRestaurant);
-module.exports = routess;
+
+resturantoroute.post("/add", userrouter,restaurantcontroller.addRestaurant);
+module.exports = resturantoroute;

@@ -1,5 +1,6 @@
-const mongoose = require("mongoose")
-const restaturanet = mongoose.Schema({
+const mongoose = require("mongoose");
+
+const restaurantschema = mongoose.Schema({
     O_name: String,
     r_name: String,
     description: String,
@@ -7,9 +8,10 @@ const restaturanet = mongoose.Schema({
     userId: Number,
     resId: Number,
     location: String,
-    category:String,
-    staff:String,
-    timing:String
-})
+    category: String,
+    staff: String,
+    timing: String,
+    codinator: String
+    });
 
-module.exports = mongoose.model("restaurant", restaturanet);
+module.exports = mongoose.model("restaurant", restaurantschema);

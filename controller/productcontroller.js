@@ -4,7 +4,6 @@ exports.productadd = async (req, res) => {
     const userId = req.user[0].userId;
     const { name, price, category, description, image } = req.body;
     if (!userId) {
-
       return res.status(400).json({
         msg: "User information not found in the request or userId is undefined",
         status: false,
@@ -39,7 +38,7 @@ exports.productadd = async (req, res) => {
 exports.productlist = async (req, res) => {
   // const restaurant = req.user.userId;
   const record = await product.find({  });
-  console.log("record", record);
+  // console.log("record", record);
   res.json({
     data: record,
     msg: "product list",

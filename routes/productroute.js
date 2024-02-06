@@ -1,6 +1,5 @@
 const routes = require("express").Router();
-const validateToken =  require("../middleware/Auth")
-// const {validateToken} = require("../controller/usercontroller")
+ const {validateToken} = require("../controller/usercontroller")
 const productcontroller = require("../controller/productcontroller")
 const contactcontroller = require("../controller/contactcontroller")
 
