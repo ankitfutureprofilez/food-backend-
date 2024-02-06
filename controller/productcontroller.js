@@ -4,6 +4,7 @@ exports.productadd = async (req, res) => {
     const userId = req.user[0].userId;
     const { name, price, category, description, image } = req.body;
     if (!userId) {
+      
       return res.status(400).json({
         msg: "User information not found in the request or userId is undefined",
         status: false,
