@@ -1,8 +1,11 @@
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
+const { promisify } = require('util'); // Import the promisify function
 const catchAsync = require("../utils/catchAsync");
+const users = require("../Model/User"); 
 
 require('dotenv').config();
-const key = process && process.env && process.env.JWT_SECRET;
+const SECRET_ACCESS = process.env && process.env.SECRET_ACCESS;
+
 const validateToken = catchAsync(async (req, res, next) => {
     let authHeader = req.headers.Authorization || req.headers.authorization;
 
@@ -11,9 +14,9 @@ const validateToken = catchAsync(async (req, res, next) => {
         if (!token) {
             next(new AppError("User is not authorized or token is missing", 403));
         }
-        const decode = await promisify(jwt.verify)(token, key);
+        const decode = await promisify(jwt.verify)(token, SECRET_ACCESS);
         if (decode) {
-            let result = await users.findById(decode.id);
+            let result = await users.findById(users.id);
             req.user = result;
             next();
         } else {

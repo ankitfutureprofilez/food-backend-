@@ -3,8 +3,8 @@ const restaurant = require("../Model/Restaurant");
 exports.addRestaurant = async (req, res) => {
     console.log("Request Body:", req.body);
     try {
-        const userId = req.user[0].userId;
-        console.log("UserId", userId);
+        // const userId = req.user.userId;
+        // console.log("UserId", userId);
         const { O_name, location, r_name, description, image, category,
             staff,
             timing } = req.body;
@@ -21,14 +21,14 @@ exports.addRestaurant = async (req, res) => {
 
         console.log("New UserId:", newUserId);
 
-        const isAlready = await restaurant.findOne({ r_name: r_name });
+        // const isAlready = await restaurant.findOne({ r_name: r_name });
 
-        if (isAlready) {
-            return res.status(400).json({
-                msg: "Restaurant with that name already exists!",
-                status: false,
-            });
-        }
+        // if (isAlready) {
+        //     return res.status(400).json({
+        //         msg: "Restaurant with that name already exists!",
+        //         status: false,
+        //     });
+        // }
 
         const record = new restaurant({
             O_name: O_name,
@@ -37,7 +37,6 @@ exports.addRestaurant = async (req, res) => {
             description: description,
             image: image,
             resId: newUserId,
-            userId: userId,
             category: category,
             staff: staff,
             timing: timing
