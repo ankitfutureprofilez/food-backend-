@@ -8,14 +8,7 @@ const AppError = require("../utils/AppError");
 const SECRET_ACCESS = process.env && process.env.SECRET_ACCESS;
 const key = process && process.env && process.env.SECRET_ACCESS;
 
-const signToken = async (id) => {
-  const token = jwt.sign(
-    { id },
-    SECRET_ACCESS,
-    { expiresIn: '58m' }
-  );
-  return token
-}
+
 
 const signup = catchAsync(async (req, res) => {
   const { firstName,lastName, email, password, confirmPassword,image } = req.body;
@@ -56,6 +49,15 @@ const signup = catchAsync(async (req, res) => {
   }
 });
 
+
+const signToken = async (id) => {
+  const token = jwt.sign(
+    { id },
+    SECRET_ACCESS,
+    { expiresIn: '58m' }
+  );
+  return token
+}
 
 
 
