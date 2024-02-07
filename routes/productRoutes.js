@@ -1,5 +1,5 @@
 const routes = require("express").Router();
- const {validateToken} = require("../controller/userController");
+ const {validateToken} = require("../controller/AuthController");
 
 const productcontroller = require("../controller/productsController");
 
