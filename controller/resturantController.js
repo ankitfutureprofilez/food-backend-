@@ -1,4 +1,4 @@
-const restaurant = require("../Model/Restaurant");
+const restaurant = require("../db/Restaurant");
 const catchAsync = require("../utils/catchAsync");
 
 exports.addRestaurant = catchAsync(async (req, res) => {

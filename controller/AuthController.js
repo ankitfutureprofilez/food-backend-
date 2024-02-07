@@ -1,10 +1,10 @@
-const User = require("../Model/User");
+const User = require("../db/User");
+const contact = require("../db/Contact")
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");
 const { promisify } = require("util");
 const AppError = require("../utils/AppError");
-const contact = require("../Model/Contact")
 
 
 const SECRET_ACCESS = process.env && process.env.SECRET_ACCESS;
