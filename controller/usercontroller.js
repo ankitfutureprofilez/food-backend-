@@ -19,17 +19,17 @@ const signToken = async (id) => {
 
 const signup = catchAsync(async (req, res) => {
   const { firstName,lastName, email, password, confirmPassword,image } = req.body;
-  let isAlready = await User.findOne({ firstName: firstName });
+  let isAlready = await User.findOne({ email: email });
   if (isAlready) {
     return res.status(400).json({
-      msg: "That user already exisits!",
+      message: "That user already exisits!",
       status: true,
     });
   }
   const lastuserid = await User.findOne({}, "userId").sort({ userId: -1 });
- console.log("lastuserid", lastuserid);
+//  console.log("lastuserid", lastuserid);
   const newUserId = lastuserid ? lastuserid.userId + 1 : 1;
-   console.log("newwws", newUserId);
+  //  console.log("newwws", newUserId);
   const record = new User({
     firstName: firstName,
     lastName: lastName,
@@ -45,13 +45,13 @@ const signup = catchAsync(async (req, res) => {
     res.json({
       status: true,
       user: result,
-      msg: "Signup Successfully",
+      message: "Signup Successfully",
     });
   } else {
     res.json({
       status: false,
       error: result,
-      msg: "Failed to create user.",
+      message: "Failed to create user.",
     });
   }
 });
@@ -64,8 +64,16 @@ const login = catchAsync(async (req, res, next) => {
   if (!email || !password) {
     return next(new AppError("Email and password is required !!", 401))
   }
-  const user = await User.findOne({ email }).select('+password');
-  const token = await signToken(user._id);
+  const user = await User.findOne({ email: email });
+  const isPassword = await User.findOne({ password: password });
+  console.log(user, isPassword)
+  if (!user || !isPassword) {
+      res.json({
+          status: false,
+          message: "Invalid login or password"
+      });
+  }
+  const token = await signToken(user);
   res.json({
     status:200,
     message: "Login Successfully !!",

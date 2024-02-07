@@ -8,7 +8,7 @@ exports.addProduct = catchAsync(
     const { name, price, category, description, image } = req.body;
     if (!userId) {
       return res.status(400).json({
-        msg: "User information not found in the request or userId is undefined",
+        message: "User information not found in the request or userId is undefined",
         status: false,
       });
     }
@@ -24,13 +24,13 @@ exports.addProduct = catchAsync(
     if (result) {
       res.status(200).json({
         data: result,
-        msg: "Product added successfully",
+        message: "Product added successfully",
         status: true,
       });
     } else {
       res.status(500).json({
         error: error,
-        msg: "Failed to add product",
+        message: "Failed to add product",
         status: false,
       });
     }
@@ -42,7 +42,7 @@ exports.productlist = catchAsync (
     const record = await product.find({});
     res.json({
       data: record,
-      msg: "product list",
+      message: "product list",
       status: 200,
     });
   }

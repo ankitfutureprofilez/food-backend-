@@ -8,7 +8,7 @@ exports.addRestaurant = catchAsync(async (req, res) => {
         timing, coordinator } = req.body;
     if (!userId) {
         return res.status(400).json({
-            msg: "User information not found in the request or userId is undefined",
+            message: "User information not found in the request or userId is undefined",
             status: false,
         });
     }
@@ -37,12 +37,12 @@ exports.addRestaurant = catchAsync(async (req, res) => {
         res.status(200).json({
             data: result,
             status: true,
-            msg: "Restaurant added successfully",
+            message: "Restaurant added successfully",
         });
     } else {
         res.status(500).json({
             error: error,
-            msg: "Failed to add restaurant",
+            message: "Failed to add restaurant",
             status: false,
         });
     }
@@ -56,7 +56,7 @@ exports.getRestaurant = catchAsync(async (req, res) => {
         res.json({
             data: record,
             status: true,
-            msg: "Restaurant list"
+            message: "Restaurant list"
         })
     }
 })

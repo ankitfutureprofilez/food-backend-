@@ -13,8 +13,8 @@ exports.contacts = async (req, res) => {
         const result = await record.save();
         // console.log("result", result);
         res.json({
-            data: record,
-            msg: "contact",
+            data: result,
+            message: "contact",
             status: 200
         })
 
@@ -22,7 +22,7 @@ exports.contacts = async (req, res) => {
         console.log("error",error);
         res.json({
             error: error,
-            msg: "Nort contact"
+            message: "Nort contact"
 
         })
     }
