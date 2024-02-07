@@ -70,7 +70,6 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   const user = await User.findOne({ email: email });
   const isPassword = await User.findOne({ password: password });
-  console.log(user, isPassword)
   if (!user || !isPassword) {
     res.json({
       status: false,
