@@ -19,13 +19,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json({ limit: "10mb" }));
 
-const producturl = require("./routes/productroute");
+const producturl = require("./routes/productRoutes");
 app.use("/product", producturl);
 
-const userurl = require("./routes/userroute");
+const userurl = require("./routes/userRoutes");
 app.use("/user", userurl);
 
-const returaneturl  =require("./routes/restaurantroute");
+const returaneturl  =require("./routes/restaurantRoutes");
 
 app.use("/restaurant", returaneturl);
 
