@@ -16,7 +16,7 @@ dotenv.config();
 //   credentials: true, 
 // };
 app.use(cors({
-  origin: ["https://food-backend-one.vercel.app"],
+  origin: ["https://food-backend-one.vercel.app/"],
   methods: ["POST", "GET", "DELETE", "PUT"],
   credentials: true
 }));
