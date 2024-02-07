@@ -9,14 +9,20 @@ const dotenv = require("dotenv");
 require("./Config");
 
 dotenv.config();
-const corsOptions = {
-  origin: '*',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true, 
-};
 
+// const corsOptions = {
+//   origin: '*',
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   credentials: true, 
+// };
+// app.use(cors({
+//   origin: ["https://food-backend-one.vercel.app/"],
+//   methods: ["POST", "GET", "DELETE", "PUT"],
+//   credentials: true
+// }));
 
-app.use(cors(corsOptions));
+app.use(cors())
+// app.use(cors(corsOptions));
 app.use(express.json({ limit: "10mb" }));
 
 const producturl = require("./routes/productRoutes");
