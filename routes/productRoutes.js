@@ -7,6 +7,8 @@ routes.post("/",validateToken, productcontroller.addProduct);
 
 routes.get('/productlist', productcontroller.productlist);
 
+routes.get('/get', validateToken,productcontroller.userproductlist);
+
 
 
 module.exports = routes;
