@@ -15,13 +15,13 @@ dotenv.config();
 //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 //   credentials: true, 
 // };
-// app.use(cors({
-//   origin: ["https://food-backend-one.vercel.app/"],
-//   methods: ["POST", "GET", "DELETE", "PUT"],
-//   credentials: true
-// }));
+app.use(cors({
+  origin: ["https://food-backend-one.vercel.app"],
+  methods: ["POST", "GET", "DELETE", "PUT"],
+  credentials: true
+}));
 
-app.use(cors())
+// app.use(cors())
 // app.use(cors(corsOptions));
 app.use(express.json({ limit: "10mb" }));
 
