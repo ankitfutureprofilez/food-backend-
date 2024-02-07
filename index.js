@@ -6,7 +6,8 @@ const Stripe = require("stripe");
 const dotenv = require("dotenv");
 require("./Config");
 dotenv.config();
-app.use(cors());
+// app.use(cors());
+app.use(cors({credentials:true}));
 app.use(express.json({ limit: "10mb" }));
 
 const producturl = require("./routes/productRoutes");
