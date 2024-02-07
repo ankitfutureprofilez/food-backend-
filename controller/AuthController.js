@@ -79,7 +79,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   const token = await signToken(user);
   res.json({
-    status: 200,
+    status: true,
     message: "Login Successfully !!",
     user: user,
     token
