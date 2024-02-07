@@ -1,6 +1,7 @@
 const routes = require("express").Router();
  const {validateToken} = require("../controller/userController");
-const productcontroller = require("../controller/productController")
+
+const productcontroller = require("../controller/productsController");
 
 routes.post("/",validateToken, productcontroller.addProduct);
 
