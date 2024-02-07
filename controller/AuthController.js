@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");
 const { promisify } = require("util");
 const AppError = require("../utils/AppError");
+const contact = require("../Model/Contact")
+
 
 const SECRET_ACCESS = process.env && process.env.SECRET_ACCESS;
 const key = process && process.env && process.env.SECRET_ACCESS;
@@ -178,3 +180,31 @@ exports.validateToken = catchAsync(async (req, res, next) => {
 
 
 
+
+exports.contacts = async (req, res) => {
+    // console.log("req.body", req.body)
+    try {
+        const { email,     message
+            , name } = req.body;
+        const record = new contact({
+            name: name,
+            email: email,
+            message: message
+        })
+        const result = await record.save();
+        // console.log("result", result);
+        res.json({
+            data: result,
+            message: "contact",
+            status: 200
+        })
+
+    } catch (error) {
+        console.log("error",error);
+        res.json({
+            error: error,
+            message: "Nort contact"
+
+        })
+    }
+}
