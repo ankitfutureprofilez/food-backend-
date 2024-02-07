@@ -11,7 +11,7 @@ require("./Config");
 dotenv.config();
 
 const corsOptions = {
-  origin: 'https://food-backend-one.vercel.app/',
+  origin: 'https://food-backend-one.vercel.app',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, 
 };

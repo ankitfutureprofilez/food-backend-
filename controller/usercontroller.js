@@ -10,8 +10,8 @@ const key = process && process.env && process.env.SECRET_ACCESS;
 
 
 
-const signup = catchAsync(async (req, res) => {
-  const { firstName,lastName, email, password, confirmPassword,image } = req.body;
+exports.signup = catchAsync(async (req, res) => {
+  const { firstName, lastName, email, password, confirmPassword, image } = req.body;
   let isAlready = await User.findOne({ email: email });
   if (isAlready) {
     return res.status(400).json({
@@ -20,7 +20,7 @@ const signup = catchAsync(async (req, res) => {
     });
   }
   const lastuserid = await User.findOne({}, "userId").sort({ userId: -1 });
-//  console.log("lastuserid", lastuserid);
+  //  console.log("lastuserid", lastuserid);
   const newUserId = lastuserid ? lastuserid.userId + 1 : 1;
   //  console.log("newwws", newUserId);
   const record = new User({
@@ -61,7 +61,7 @@ const signToken = async (id) => {
 
 
 
-const login = catchAsync(async (req, res, next) => {
+exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return next(new AppError("Email and password is required !!", 401))
@@ -70,14 +70,14 @@ const login = catchAsync(async (req, res, next) => {
   const isPassword = await User.findOne({ password: password });
   console.log(user, isPassword)
   if (!user || !isPassword) {
-      res.json({
-          status: false,
-          message: "Invalid login or password"
-      });
+    res.json({
+      status: false,
+      message: "Invalid login or password"
+    });
   }
   const token = await signToken(user);
   res.json({
-    status:200,
+    status: 200,
     message: "Login Successfully !!",
     user: user,
     token
@@ -85,7 +85,7 @@ const login = catchAsync(async (req, res, next) => {
 });
 
 
-const validateToken = catchAsync(async (req, res, next) => {
+exports.validateToken = catchAsync(async (req, res, next) => {
 
   let authHeader = req.headers.Authorization || req.headers.authorization;
 
@@ -118,7 +118,7 @@ const validateToken = catchAsync(async (req, res, next) => {
 //   const user = await User.findOne({email:req.body.email});
 //   if(!user){
 //      return next(new AppError("no user found associated with this email.", 404));
-//   } 
+//   }
 //   // 2. Generate randow token string
 //   const resetToken = await user.createPasswordResetToken();
 //   await user.save({validateBeforeSave:false});
@@ -149,12 +149,12 @@ const validateToken = catchAsync(async (req, res, next) => {
 //   // 1. get user token
 //   const hashToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
 
-//   // 2. Find token user and set new password 
+//   // 2. Find token user and set new password
 //   const user = await User.findOne({
 //     passwordResetToken:hashToken,
 //     resetTokenExpire : { $gt: Date.now()}
 //   });
-//   if(!user){ 
+//   if(!user){
 //       next(new AppError("Link expired or invalid token", 500))
 //   }
 //   user.password = req.body.password;
@@ -166,17 +166,15 @@ const validateToken = catchAsync(async (req, res, next) => {
 //   // 3. Update changedPassswordAt Property
 
 
-//   // 4. login user in send JWT 
+//   // 4. login user in send JWT
 //   const token = await signToken(user._id);
 //   res.json({
 //     message:"Password changed successfully.",
 //     token
-//   }); 
+//   });
 // });
 
 
 
 
 
-
-module.exports = { signup, login, validateToken };
