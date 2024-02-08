@@ -8,9 +8,19 @@ const userschema = mongoose.Schema({
     unique: true,
   },
   userId:Number,
-  password: String,
-  confirmPassword: String,
+  password: {
+    type:String,
+    select:false
+  },
+  confirmPassword: {
+    type:String,
+    select:false
+  },
   image: String,
+  role:  {
+    type: Number,
+    default: 0,
+  },
 })
 
 module.exports = mongoose.model("user",userschema)

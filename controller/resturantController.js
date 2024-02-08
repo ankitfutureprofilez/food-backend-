@@ -1,25 +1,26 @@
-const restaurant = require("../db/Restaurant");
+const Restaurant = require("../db/Restaurant");
+const User = require("../db/User");
 const catchAsync = require("../utils/catchAsync");
 
 exports.addRestaurant = catchAsync(async (req, res) => {
     const userId = req.user.userId;
-    const { ownername, location, restaurantname, description, image, category,
-        staff,
-        timing, coordinator } = req.body;
     if (!userId) {
         return res.status(400).json({
             message: "User information not found in the request or userId is undefined",
             status: false,
         });
     }
-    const lastRestaurant = await restaurant.findOne({}, "resId").sort({ resId: -1 });
+    
+    const user = await User.findOne(req.user._id);
+    const { opening_from, opening_to, ownername, location, restaurantname, description, image, category,staff, coordinates } = req.body;
+    const lastRestaurant = await Restaurant.findOne({}, "resId").sort({ resId: -1 });
     let newUserId;
     if (lastRestaurant && lastRestaurant.resId !== undefined) {
         newUserId = lastRestaurant.resId + 1;
     } else {
         newUserId = 1;
     }
-    const record = new restaurant({
+    const record = new Restaurant({
         restaurantname: restaurantname,
         ownername: ownername,
         location: location,
@@ -29,15 +30,19 @@ exports.addRestaurant = catchAsync(async (req, res) => {
         userId: userId,
         category: category,
         staff: staff,
-        timing: timing,
-        coordinator: coordinator
+        opening_from: opening_from,
+        opening_to: opening_to,
+        coordinates:coordinates
     });
     const result = await record.save();
+    user.role = 1;
+    await user.save({validateBeforeSave:false});
+
     if (result) {
         res.status(200).json({
             data: result,
             status: true,
-            message: "Restaurant added successfully",
+            message: "Restaurant added successfully !!.",
         });
     } else {
         res.status(500).json({
@@ -46,17 +51,38 @@ exports.addRestaurant = catchAsync(async (req, res) => {
             status: false,
         });
     }
-}
-)
-
+});
+ 
 
 exports.getRestaurant = catchAsync(async (req, res) => {
-    const record = await restaurant.find({});
+    const record = await Restaurant.find({});
     if (record) {
         res.json({
-            data: record,
+            list: record,
             status: true,
-            message: "Restaurant list"
-        })
+        });
+    } else {
+        res.json({
+            list: [],
+            status: true,
+        });
+    }
+});
+
+
+exports.getRestaurantData = catchAsync(async (req, res) => {
+    console.log("req.params.id",req.params.id)
+    const record = await Restaurant.find({"resId" : req.params.resId});
+    if (record) {
+        res.json({
+            record: record,
+            status: true,
+        });
+    } else {
+        res.json({
+            msg: "Record not found !!.",
+            status: false,
+        });
     }
 })
+
