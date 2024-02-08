@@ -20,14 +20,14 @@ const signToken = async (id) => {
 
 exports.signup = catchAsync(async (req, res) => {
   const { firstName, lastName, email, password, confirmPassword, image } = req.body;
-  let isAlready = await User.findOne({ email: email });
+  let isAlready = await User.find({ email: email });
   if (isAlready) {
     return res.status(400).json({
       message: "That user already exisits!",
       status: true,
     });
   }
-  const lastuserid = await User.findOne({}, "userId").sort({ userId: -1 });
+  const lastuserid = await User.find({}, "userId").sort({ userId: -1 });
   const newUserId = lastuserid ? lastuserid.userId + 1 : 1;
   const record = new User({
     firstName: firstName,
