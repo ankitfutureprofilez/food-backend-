@@ -3,13 +3,19 @@ const contact = require("../db/Contact")
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");
-const { promisify } = require("util");
+const { promisify } = require("util");     
 const AppError = require("../utils/AppError");
-
-
 const SECRET_ACCESS = process.env && process.env.SECRET_ACCESS;
 const key = process && process.env && process.env.SECRET_ACCESS;
 
+const signToken = async (id) => {
+  const token = jwt.sign(
+    { id },
+    SECRET_ACCESS,
+    { expiresIn: '58m' }
+  );
+  return token
+}
 
 
 exports.signup = catchAsync(async (req, res) => {
@@ -22,9 +28,7 @@ exports.signup = catchAsync(async (req, res) => {
     });
   }
   const lastuserid = await User.findOne({}, "userId").sort({ userId: -1 });
-  //  console.log("lastuserid", lastuserid);
   const newUserId = lastuserid ? lastuserid.userId + 1 : 1;
-  //  console.log("newwws", newUserId);
   const record = new User({
     firstName: firstName,
     lastName: lastName,
@@ -39,8 +43,7 @@ exports.signup = catchAsync(async (req, res) => {
   if (result) {
     res.json({
       status: true,
-      user: result,
-      message: "Signup Successfully",
+      message: "You have been registred successfully !!.",
     });
   } else {
     res.json({
@@ -50,17 +53,6 @@ exports.signup = catchAsync(async (req, res) => {
     });
   }
 });
-
-
-const signToken = async (id) => {
-  const token = jwt.sign(
-    { id },
-    SECRET_ACCESS,
-    { expiresIn: '58m' }
-  );
-  return token
-}
-
 
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -87,9 +79,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
 
 exports.validateToken = catchAsync(async (req, res, next) => {
-
   let authHeader = req.headers.Authorization || req.headers.authorization;
-
   if (authHeader && authHeader.startsWith("Bearer")) {
     let token = authHeader.split(" ")[1];
     if (!token) {
@@ -177,33 +167,25 @@ exports.validateToken = catchAsync(async (req, res, next) => {
 
 
 
-
-
-
 exports.contacts = async (req, res) => {
-    // console.log("req.body", req.body)
     try {
-        const { email,     message
-            , name } = req.body;
+        const { email, message, name } = req.body;
         const record = new contact({
             name: name,
             email: email,
             message: message
         })
         const result = await record.save();
-        // console.log("result", result);
         res.json({
             data: result,
             message: "contact",
             status: 200
-        })
-
+        });
     } catch (error) {
         console.log("error",error);
         res.json({
             error: error,
-            message: "Nort contact"
-
+            message: "some went wrong !!"
         })
     }
 }

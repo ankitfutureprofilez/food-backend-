@@ -1,14 +1,12 @@
 const routes = require("express").Router();
  const {validateToken} = require("../controller/AuthController");
 
-const productcontroller = require("../controller/productsController");
+const { addProduct, productlist, userproductlist} = require("../controller/productsController");
 
-routes.post("/",validateToken, productcontroller.addProduct);
+routes.post("/",validateToken, addProduct);
 
-routes.get('/productlist', productcontroller.productlist);
+routes.get('/productlist', productlist);
 
-routes.get('/get', validateToken,productcontroller.userproductlist);
-
-
+routes.get('/my-products', validateToken, userproductlist);
 
 module.exports = routes;
