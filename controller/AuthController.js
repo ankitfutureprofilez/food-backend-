@@ -23,7 +23,7 @@ exports.signup = catchAsync(async (req, res) => {
   const lastuserid = await User.find({}, "userId").sort({ userId: -1 });
   const newUserId = lastuserid ? lastuserid.userId + 1 : 1;
 
-   let isAlready = await User.find({ email: email });
+   let isAlready = await User.findOne({ email: email });
   if (isAlready) {
     return res.status(400).json({
       message: "That user already exisits!",
@@ -101,10 +101,10 @@ exports.validateToken = catchAsync(async (req, res, next) => {
 
 
 exports.user = catchAsync(async (req, res,) => {
-  console.log("req.user",req)
+  console.log("req.user",req.user)
   if (req.user) {
-      // const user = await User.findOne({ email: email });
-      // const isPassword = await User.findOne({ password: password });
+    //  const user = await User.findOne({ email: email });
+   //  const isPassword = await User.findOne({ password: password });
       res.json({
         status: true,
         user: req.user

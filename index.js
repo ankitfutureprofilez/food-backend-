@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+var bodyParser =  require("body-parser")
 const cors = require("cors");
 const dotenv = require("dotenv");
 require("./Config");
@@ -8,8 +9,16 @@ dotenv.config();
 const morgan = require('morgan')
 app.use(morgan('dev')); 
 
-app.use(cors({credentials:true}));
-app.use(express.json({ limit: "10mb" }));
+app.use(cors({
+  origin: "*", 
+  credentials: true, 
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "mode"] // Allow additional headers, including "mode"
+}));
+
+
+app.use(express.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+
 
 app.use("/product", require("./routes/productRoutes"));
 app.use("/user", require("./routes/userRoutes"));
