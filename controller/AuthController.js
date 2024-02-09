@@ -8,11 +8,11 @@ const AppError = require("../utils/AppError");
 const SECRET_ACCESS = process.env && process.env.SECRET_ACCESS;
 const key = process && process.env && process.env.SECRET_ACCESS;
 
-const signToken = async (id) => {
+const signToken = async (payload) => {
   const token = jwt.sign(
-    { id },
+    payload,
     SECRET_ACCESS,
-    { expiresIn: '10m' }
+    { expiresIn: '58m' }
   );
   return token
 }
@@ -69,7 +69,9 @@ exports.login = catchAsync(async (req, res, next) => {
       message: "Invalid login or password"
     });
   }
-  const token = await signToken(user);
+  const token = await signToken({
+    id:user._id
+  }); 
   res.json({
     status: true,
     message: "Login Successfully !!",
@@ -87,6 +89,7 @@ exports.validateToken = catchAsync(async (req, res, next) => {
       next(new AppError("User is not authorized or token is missing", 403));
     }
     const decode = await promisify(jwt.verify)(token, key);
+    console.log("decode",decode);
     if (decode) {
       let result = await User.findById(decode.id);
       req.user = result;

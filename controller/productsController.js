@@ -51,10 +51,10 @@ exports.productlist = catchAsync (
 
 exports.userproductlist = catchAsync (
     async (req, res) => {
-        const userId = req.user.userId
-        const record = await product.find({userId:userId});
+        // const userId = req.user.userId
+        // const record = await product.find({userId:userId});
       res.json({
-        data: record,
+        data: req.user,
         message: "product list",
         status: 200,
       });

@@ -9,7 +9,7 @@ const upload = require("../middleware/uploadFile");
 
 routes.post("/uploadProduct", validateToken, upload.single("file"), addProduct);
 
-routes.get("/productlist", productlist);
+routes.get("/productlist", validateToken, productlist);
 
 routes.get("/my-products", validateToken, userproductlist);
 
