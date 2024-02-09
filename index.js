@@ -2,8 +2,15 @@ const express = require("express");
 const app = express();
 var bodyParser =  require("body-parser")
 const cors = require("cors");
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, 
+};
+app.use(cors(corsOptions));
+
 const dotenv = require("dotenv");
-require("./Config");
+require("./mongoConfig");
 dotenv.config();
 
 const morgan = require('morgan')

@@ -9,4 +9,6 @@ const productschema = mongoose.Schema({
   userId:String
 });
 
+productschema.index({ name:'text' });
+
 module.exports = mongoose.model("product", productschema);
