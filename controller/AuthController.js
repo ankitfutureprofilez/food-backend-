@@ -12,7 +12,7 @@ const signToken = async (id) => {
   const token = jwt.sign(
     { id },
     SECRET_ACCESS,
-    { expiresIn: '58m' }
+    { expiresIn: '10m' }
   );
   return token
 }
