@@ -3,7 +3,7 @@ const app = express();
 var bodyParser =  require("body-parser")
 const cors = require("cors");
 const corsOptions = {
-  origin: '*',
+  origin: 'http://localhost:3000',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, 
 };
