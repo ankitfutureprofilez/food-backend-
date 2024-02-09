@@ -100,10 +100,26 @@ exports.validateToken = catchAsync(async (req, res, next) => {
 });
 
 
+exports.user = catchAsync(async (req, res,) => {
+  console.log("req.user",req)
+  if (req.user) {
+      // const user = await User.findOne({ email: email });
+      // const isPassword = await User.findOne({ password: password });
+      res.json({
+        status: true,
+        user: req.user
+      });
+  } else {
+    res.json({
+      status: false,
+      message: "You must be log in first !!.",
+    });
+  }
+});
+
 // const profile = catchAsync ( async (req, res) => {
 //     res.json(req.user);
 // });
-
 
 // const forgotPassword = catchAsync ( async (req, res, next) => {
 //   // 1. Check is email valid or not

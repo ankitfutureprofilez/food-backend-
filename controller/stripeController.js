@@ -44,7 +44,6 @@ exports.createCheckout = catchAsync(async (req, res) => {
         order:saved_order,
         status:'true'
       })
-
     // if(session){ 
     //   res.status(200).json({
     //     msg:'Order has been placed successfully.',
