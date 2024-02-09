@@ -4,19 +4,16 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 require("./Config");
 dotenv.config();
-// app.use(cors());
+
+const morgan = require('morgan')
+app.use(morgan('dev')); 
+
 app.use(cors({credentials:true}));
 app.use(express.json({ limit: "10mb" }));
 
-const producturl = require("./routes/productRoutes");
-app.use("/product", producturl);
-
-const userurl = require("./routes/userRoutes");
-app.use("/user", userurl);
-
-const returaneturl = require("./routes/restaurantRoutes");
-
-app.use("/restaurant", returaneturl);
+app.use("/product", require("./routes/productRoutes"));
+app.use("/user", require("./routes/userRoutes"));
+app.use("/restaurant", require("./routes/restaurantRoutes"));
 app.use("/stripe", require("./routes/stripeRoutes"));
 
 const PORT = process.env.REACT_APP_SERVER_DOMIN;
@@ -29,7 +26,5 @@ app.get("/", (req, res) => {
 })
 
 
-
-// //server is ruuning
-app.listen(PORT, () => console.log("server is running at port : " + PORT));
+app.listen(PORT, () => console.log("Server is running at port : " + PORT));
  
