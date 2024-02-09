@@ -1,14 +1,20 @@
 const mongoose = require("mongoose");
-
-const productschema = mongoose.Schema({
+const productSchema = mongoose.Schema({
   name: String,
   category: String,
   image: String,
   price: String,
   description: String,
-  userId:Number
+  userId: String
 });
 
-productschema.index({ name:'text' });
+productSchema.virtual('permalink').get(function() {
+  const APP_URL = process.env.APP_URL || 'http://localhost:8000';
+  return `${APP_URL}/storage/${this.image}`;
+});
 
-module.exports = mongoose.model("product", productschema);
+productSchema.set('toObject', { virtuals: true });
+productSchema.set('toJSON', { virtuals: true }); 
+
+productSchema.index({ name: 'text' });
+module.exports = mongoose.model("Product", productSchema);

@@ -1,48 +1,47 @@
 const product = require("../db/Product");
 const catchAsync = require("../utils/catchAsync");
 
+exports.addProduct = catchAsync(async (req, res) => {
 
-exports.addProduct = catchAsync(
-  async (req, res) => {
-    const userId = req?.user?.userId;
-    const { name, price, category, description, image } = req.body;
-    if (!userId) {
-      return res.status(400).json({
-        message: "User information not found in the request or userId is undefined",
-        status: false,
-      });
-    }
+  const userId = req?.user?.userId;
+  const { name, price, category, description } = req.body;
+  if (!userId) {
+    return res.status(400).json({
+      message: "User information not found in the request or userId is undefined",
+      status: false,
+    });
+  }
+  try {
     const record = new product({
-      name: name,
-      price: price,
-      category: category,
-      description: description,
-      image: image,
-      userId: userId,
+      name,
+      price,
+      category,
+      description,
+      image: req.file.filename,
+      userId,
     });
     const result = await record.save();
-    if (result) {
-      res.status(200).json({
-        data: result,
-        message: "Product added successfully",
-        status: true,
-      });
-    } else {
-      res.status(500).json({
-        error: error,
-        message: "Failed to add product",
-        status: false,
-      });
-    }
+    res.status(200).json({
+      data: result,
+      message: "Product added successfully",
+      status: true,
+    });
+  } catch (error) {
+    console.error("Failed to add product:", error);
+    res.status(500).json({
+      error: error.message,
+      message: "Failed to add product",
+      status: false,
+    });
+
   }
-)
+});
 
 exports.productlist = catchAsync (
   async (req, res) => {
     const record = await product.find({});
     res.json({
       data: record,
-      message: "product list",
       status: 200,
     });
   }
@@ -59,6 +58,6 @@ exports.userproductlist = catchAsync (
         status: 200,
       });
     }
-  )
+)
   
 
