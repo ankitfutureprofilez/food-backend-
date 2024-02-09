@@ -6,7 +6,7 @@ const productschema = mongoose.Schema({
   image: String,
   price: String,
   description: String,
-  userId:Number
+  userId:String
 });
 
 productschema.index({ name:'text' });

@@ -9,6 +9,6 @@ route.post("/add", validateToken, addRestaurant);
 route.get("/get", getRestaurant); 
 
 // Restaurant detail 
-route.get("/:resId", getRestaurantData);
+route.get("/:resId" , getRestaurantData);
 
 module.exports = route;

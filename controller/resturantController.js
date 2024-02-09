@@ -71,8 +71,10 @@ exports.getRestaurant = catchAsync(async (req, res) => {
 
 
 exports.getRestaurantData = catchAsync(async (req, res) => {
-    console.log("req.params.id",req.params.id)
-    const record = await Restaurant.find({"resId" : req.params.resId});
+    const resId  =  req.params.resId 
+    console.log("resId",resId)
+    const record = await Restaurant.find({resId :resId});
+    console.log("record",record)
     if (record) {
         res.json({
             record: record,

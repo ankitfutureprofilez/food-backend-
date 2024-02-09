@@ -46,6 +46,7 @@ exports.productlist = catchAsync (
       status: 200,
     });
   }
+  
 )
 
 
