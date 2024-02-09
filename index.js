@@ -1,6 +1,14 @@
 const express = require("express");
 const app = express();
+
 const cors = require("cors");
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, 
+};
+app.use(cors(corsOptions));
+
 const dotenv = require("dotenv");
 require("./mongoConfig");
 dotenv.config();
@@ -8,7 +16,6 @@ dotenv.config();
 const morgan = require('morgan')
 app.use(morgan('dev')); 
 
-app.use(cors({credentials:true}));
 app.use(express.json({ limit: "10mb" }));
 
 app.use("/product", require("./routes/productRoutes"));
