@@ -4,13 +4,20 @@ const {
   addProduct,
   productlist,
   userproductlist,
+  restaurantProducts
 } = require("../controller/productsController");
+
 const upload = require("../middleware/uploadFile");
 
 routes.post("/uploadProduct", validateToken, upload.single("file"), addProduct);
 
-routes.get("/productlist", validateToken, productlist);
+// a to z products lists - done
+routes.get("/productlist", productlist);
 
-routes.get("/my-products", validateToken, userproductlist);
+// only my added products - 
+routes.get("/my-products/:userId", validateToken, userproductlist);
+
+// resturent detail api - done 
+routes.get("/restaurent/:res_id",  restaurantProducts);
 
 module.exports = routes;

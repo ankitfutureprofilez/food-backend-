@@ -1,8 +1,8 @@
 const product = require("../db/Product");
+const Restaurant = require("../db/Restaurant");
 const catchAsync = require("../utils/catchAsync");
 
 exports.addProduct = catchAsync(async (req, res) => {
-
   const userId = req?.user?.userId;
   const { name, price, category, description } = req.body;
   if (!userId) {
@@ -17,7 +17,7 @@ exports.addProduct = catchAsync(async (req, res) => {
       price,
       category,
       description,
-      image: req.file.filename,
+      image: req.file ? req.file.filename : false,
       userId,
     });
     const result = await record.save();
@@ -45,9 +45,7 @@ exports.productlist = catchAsync (
       status: 200,
     });
   }
-  
 )
-
 
 exports.userproductlist = catchAsync (
     async (req, res) => {
@@ -60,5 +58,18 @@ exports.userproductlist = catchAsync (
       });
     }
 )
-  
+
+exports.restaurantProducts = catchAsync (
+  async (req, res) => {
+    const res_id = req.params.res_id;
+    const restaurent = Restaurant.find("resId", res_id);
+    const products = await product.find({ "userId" : restaurent.userId});
+    res.json({
+      restaurent: restaurent,
+      products: products,
+      status: 200,
+    });
+  }
+)
+
 

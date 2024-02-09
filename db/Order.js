@@ -6,7 +6,7 @@ const orderSchema = mongoose.Schema({
   order_items:String,
   order_status:{
     type: String,
-    default :"placed" // delivered || placed
+    default :"initiated" // delivered || placed || initiated
   },
   createdAt: {
     type: Date,

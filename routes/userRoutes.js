@@ -1,6 +1,5 @@
 const router =  require("express").Router();
 
-
 const {user, signup, login} = require("../controller/AuthController")
 const { validateToken } = require("../controller/AuthController")
 const { contacts, search } = require("../controller/userController")

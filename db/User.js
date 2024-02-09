@@ -1,11 +1,21 @@
 const mongoose = require("mongoose")
 
 const userschema = mongoose.Schema({
-  firstName: String,
-  lastName: String,
+  firstName: {
+    required:[true, 'Please enter your first name.'],
+    type:String,
+    minLength:3,
+    maxLength:10
+  },
+  lastName: {
+    required:[true, 'Please enter your last name.'],
+    type:String,
+    minLength:3,
+    maxLength:10
+  },
   email: {
     type: String,
-    unique: true,
+    unique:[true, 'Username is already taken.'], 
   },
   userId:String,
   password: {
