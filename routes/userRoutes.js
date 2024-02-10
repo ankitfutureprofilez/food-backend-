@@ -3,10 +3,12 @@ const router =  require("express").Router();
 const {user, signup, login} = require("../controller/AuthController")
 const { validateToken } = require("../controller/AuthController")
 const { contacts, search } = require("../controller/userController")
+const upload = require("../middleware/uploadFile");
+
 
 router.get("", validateToken, user);
 
-router.post("/signup", signup);
+router.post("/signup",upload.single("file") , signup);
 
 router.post("/login", login);
 

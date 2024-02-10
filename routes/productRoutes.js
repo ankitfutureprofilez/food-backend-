@@ -14,10 +14,12 @@ routes.post("/uploadProduct", validateToken, upload.single("file"), addProduct);
 // a to z products lists - done
 routes.get("/productlist", productlist);
 
+// resturent detail api - done 
+routes.get("/restaurent/:res_id",  restaurantProducts);
+
 // only my added products - 
 routes.get("/my-products/:userId", validateToken, userproductlist);
 
-// resturent detail api - done 
-routes.get("/restaurent/:res_id",  restaurantProducts);
+
 
 module.exports = routes;

@@ -35,7 +35,7 @@ exports.signup = catchAsync(async (req, res) => {
     password: password,
     confirmPassword: confirmPassword,
     userId: newUserId,
-    image: image,
+      image: req.file ? req.file.filename : false,
   });
   const result = await record.save();
 
