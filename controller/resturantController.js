@@ -3,6 +3,7 @@ const User = require("../db/User");
 const catchAsync = require("../utils/catchAsync");
 
 exports.addRestaurant = catchAsync(async (req, res) => {
+    console.log('Uploaded File:', req.file); 
     const userId = req.user.userId;
     if (!userId) {
         return res.status(400).json({
@@ -36,7 +37,7 @@ exports.addRestaurant = catchAsync(async (req, res) => {
     const result = await record.save();
     user.role = 1;
     await user.save({validateBeforeSave:false});
-
+console.log("result",result)
     if (result) {
         res.status(200).json({
             data: result,
