@@ -10,7 +10,7 @@ const signToken = async (payload) => {
   const token = jwt.sign(
     payload,
     SECRET_ACCESS,
-    { expiresIn: '30m'}   
+    { expiresIn: '5h'}   
   );
   return token
 }
