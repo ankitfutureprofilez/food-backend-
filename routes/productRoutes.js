@@ -9,7 +9,7 @@ const {
 
 const upload = require("../middleware/uploadFile");
 
-routes.post("/uploadProduct", validateToken, upload.single("file"), addProduct);
+routes.post("/uploadProduct", validateToken, upload.single("image"), addProduct);
 
 // a to z products lists - done
 routes.get("/productlist", productlist);

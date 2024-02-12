@@ -1,7 +1,7 @@
 const User = require("../db/User");
 const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");
-const { promisify } = require("util");     
+const { promisify } = require("util");
 const AppError = require("../utils/AppError");
 const SECRET_ACCESS = process.env && process.env.SECRET_ACCESS;
 const key = process && process.env && process.env.SECRET_ACCESS;
@@ -10,18 +10,16 @@ const signToken = async (payload) => {
   const token = jwt.sign(
     payload,
     SECRET_ACCESS,
-    { expiresIn: '5h'}   
+    { expiresIn: '5h' }
   );
   return token
 }
 
 exports.signup = catchAsync(async (req, res) => {
-  const { firstName, lastName, email, password, confirmPassword, image } = req.body;
- 
+  const { firstName, lastName, email, password, confirmPassword } = req.body;
   const lastuserid = await User.find({}, "userId").sort({ userId: -1 });
   const newUserId = lastuserid ? lastuserid.userId + 1 : 1;
-
-   let isAlready = await User.findOne({ email: email });
+  let isAlready = await User.findOne({ email: email });
   if (isAlready) {
     return res.status(400).json({
       message: "That user already exisits!",
@@ -35,10 +33,9 @@ exports.signup = catchAsync(async (req, res) => {
     password: password,
     confirmPassword: confirmPassword,
     userId: newUserId,
-      image: req.file ? req.file.filename : false,
+    image: req.file ? req.file.filename : false,
   });
   const result = await record.save();
-
   if (result) {
     res.json({
       status: true,
@@ -67,8 +64,8 @@ exports.login = catchAsync(async (req, res, next) => {
     });
   }
   const token = await signToken({
-    id:user._id
-  }); 
+    id: user._id
+  });
   res.json({
     status: true,
     message: "Login Successfully !!",
@@ -93,16 +90,16 @@ exports.validateToken = catchAsync(async (req, res, next) => {
       next(new AppError('User is not authorized', 401));
     }
   } else {
-    next(res.status(401).json({status:false,msg:'Token is missing.'}));
+    next(res.status(401).json({ status: false, msg: 'Token is missing.' }));
   }
 });
 
 exports.user = catchAsync(async (req, res,) => {
   if (req.user) {
-      res.json({
-        status: true,
-        user: req.user
-      });
+    res.json({
+      status: true,
+      user: req.user
+    });
   } else {
     res.json({
       status: false,
@@ -110,4 +107,3 @@ exports.user = catchAsync(async (req, res,) => {
     });
   }
 });
- 
