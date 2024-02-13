@@ -17,7 +17,7 @@ const schema = mongoose.Schema({
 });
 
 schema.virtual('banner_image').get(function() {
-    const APP_URL = process.env.APP_URL || 'https://food-backend-two.vercel.app/';
+    const APP_URL = process.env.APP_URL || 'https://food-backend-three.vercel.app/';
     return `${APP_URL}/storage/${this.image}`;
 });
 
