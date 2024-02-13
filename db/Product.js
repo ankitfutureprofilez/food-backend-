@@ -10,7 +10,7 @@ const productSchema = mongoose.Schema({
 
 productSchema.virtual('permalink').get(function() {
   const APP_URL ="https://food-backend-three.vercel.app";
-  return `${APP_URL}/storage/${this.image}`;
+  return `${APP_URL}/image/${this.image}`;
 });
 
 productSchema.set('toObject', { virtuals: true });
