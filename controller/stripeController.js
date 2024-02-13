@@ -4,6 +4,8 @@ const Stripe = require("stripe");
 
  /***** payment getWay */
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+
+
  
 exports.createCheckout = catchAsync(async (req, res) => {
   try {
