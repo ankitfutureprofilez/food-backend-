@@ -7,7 +7,7 @@ const upload = require("../middleware/uploadFile");
 
 router.get("", validateToken, user);
 
-router.post("/signup", upload.single("image") , signup);
+router.post("/signup", signup);
 
 router.post("/login", login);
 

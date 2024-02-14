@@ -35,13 +35,13 @@ const userschema = mongoose.Schema({
 
 
 
-userschema.virtual('banner_image').get(function() {
-  const APP_URL = 'https://food-backend-three.vercel.app';
-  return `${APP_URL}/storage/${this.image}`;
-});
+// userschema.virtual('banner_image').get(function() {
+//   const APP_URL = 'https://food-backend-three.vercel.app';
+//   return `${APP_URL}/storage/${this.image}`;
+// });
 
-userschema.set('toObject', { virtuals: true });
-userschema.set('toJSON', { virtuals: true }); 
+// userschema.set('toObject', { virtuals: true });
+// userschema.set('toJSON', { virtuals: true }); 
 
 
 module.exports = mongoose.model("user",userschema)
