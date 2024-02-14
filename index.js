@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: 'https://food-delivery-websites.netlify.app',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, 
 };
@@ -23,7 +23,9 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.json({ limit: "10mb" }));
 
 const path = require('path');
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// app.use('/uploads', express.static(path.join(__dirname, 'storage')));
+
+app.use('/storage', express.static(path.join(__dirname, 'storage')));
 app.use("/product", require("./routes/productRoutes"));
 app.use("/user", require("./routes/userRoutes"));
 app.use("/restaurant", require("./routes/restaurantRoutes"));

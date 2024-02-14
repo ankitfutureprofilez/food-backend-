@@ -16,6 +16,7 @@ const signToken = async (payload) => {
 }
 
 exports.signup = catchAsync(async (req, res) => {
+  console.log("req.file" , req.file)
   const { firstName, lastName, email, password, confirmPassword } = req.body;
   const lastuserid = await User.find({}, "userId").sort({ userId: -1 });
   const newUserId = lastuserid ? lastuserid.userId + 1 : 1;
