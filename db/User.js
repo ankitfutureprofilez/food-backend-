@@ -37,7 +37,7 @@ const userschema = mongoose.Schema({
 
 userschema.virtual('banner_image').get(function() {
   const APP_URL = process.env.APP_URL || 'https://food-backend-two.vercel.app/';
-  return `${APP_URL}/storage/${this.image}`;
+  return `${APP_URL}/uploads/${this.image}`;
 });
 
 userschema.set('toObject', { virtuals: true });
