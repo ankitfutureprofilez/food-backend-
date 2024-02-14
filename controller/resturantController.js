@@ -11,7 +11,7 @@ exports.addRestaurant = catchAsync(async (req, res) => {
         });
     }
     const user = await User.findOne(req.user._id);
-    const { opening_from, opening_to, ownername, location, restaurantname, description, category,staff, coordinates } = req.body;
+    const { opening_from, opening_to, ownername,image, location, restaurantname, description, category,staff, coordinates } = req.body;
     const lastRestaurant = await Restaurant.findOne({}, "resId").sort({ resId: -1 });
     let newUserId;
     if (lastRestaurant && lastRestaurant.resId !== undefined) {
@@ -24,7 +24,7 @@ exports.addRestaurant = catchAsync(async (req, res) => {
         ownername: ownername,
         location: location,
         description: description,
-        image: req.file ? req.file.filename : false,
+        image: image,
         resId: newUserId,
         userId: userId,
         category: category,
