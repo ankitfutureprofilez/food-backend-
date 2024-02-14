@@ -65,7 +65,7 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!user || !isPassword) {
     res.json({
       status: false,
-      message: "Invalid login or password"
+      message: "Invalid Email or password"
     });
   }
   const token = await signToken({
