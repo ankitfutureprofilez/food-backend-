@@ -1,19 +1,43 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema({
-    ownername: String,
-    restaurantname: String,
+    ownername: {
+        required:[true, 'Please enter owner name.'],
+        type:String,
+        minLength:3,
+    },
+    restaurantname: {
+        required:[true, 'Please enter restaurant name.'],
+        type:String,
+        minLength:3,
+    },
     description: String,
     image: {
         type:String,
     },
     userId: String,
     resId: String,
-    location: String,
+    location: {
+        required:[true, 'Please enter restaurant location.'],
+        type:String,
+        minLength:3,
+    },
     category: String,
-    staff: String,
+    staff: {
+        required:[true, 'Staff can not be empty.'],
+        type:String,
+        minLength:1,
+    },
     coordinates : String,
-    opening_from : String, 
-    opening_to : String
+    opening_from: {
+        required:[true, 'Closing timing can not be empty.'],
+        type:String,
+        minLength:1,
+    },
+    opening_to: {
+        required:[true, 'Opening timing can not be empty.'],
+        type:String,
+        minLength:1,
+    },
 });
 
 schema.virtual('banner_image').get(function() {
