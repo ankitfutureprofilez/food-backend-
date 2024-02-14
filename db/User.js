@@ -5,13 +5,11 @@ const userschema = mongoose.Schema({
     required:[true, 'Please enter your first name.'],
     type:String,
     minLength:3,
-    maxLength:10
   },
   lastName: {
     required:[true, 'Please enter your last name.'],
     type:String,
     minLength:3,
-    maxLength:10
   },
   email: {
     type: String,
