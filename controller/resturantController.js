@@ -3,6 +3,8 @@ const User = require("../db/User");
 const catchAsync = require("../utils/catchAsync");
 
 exports.addRestaurant = catchAsync(async (req, res) => {
+
+    console.log("req.body", req.body);
     const userId = req.user.userId;
     if (!userId) {
         return res.status(400).json({
@@ -26,7 +28,7 @@ exports.addRestaurant = catchAsync(async (req, res) => {
         description: description,
         image: image,
         resId: newUserId,
-        userId: userId,
+        userId:  req.user._id,
         category: category,
         staff: staff,
         opening_from: opening_from,
@@ -53,24 +55,30 @@ exports.addRestaurant = catchAsync(async (req, res) => {
  
 
 exports.getRestaurant = catchAsync(async (req, res) => {
-    const record = await Restaurant.find({});
-    if (record) {
-        res.json({
-            list: record,
-            status: true,
-        });
-    } else {
-        res.json({
-            list: [],
-            status: true,
-        });
+    try {
+        const records = await Restaurant.find({}).populate('userId').exec();
+        if (records.length > 0) {
+            res.json({
+                list: records,
+                status: true,
+            });
+        } else {
+            res.json({
+                list: [],
+                status: true,
+            });
+        }
+    } catch (err) {
+        console.error(err);
+        // Handle error
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
 
 exports.getRestaurantData = catchAsync(async (req, res) => {
     const resId  =  req.params.resId 
-    const record = await Restaurant.find({resId :resId});
+    const record = await Restaurant.find({resId :resId}).populate('userId').exec();;
     if (record) {
         res.json({
             record: record,
@@ -82,5 +90,5 @@ exports.getRestaurantData = catchAsync(async (req, res) => {
             status: false,
         });
     }
-})
+});
 

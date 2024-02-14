@@ -5,8 +5,6 @@ const Stripe = require("stripe");
  /***** payment getWay */
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
-
-
  
 exports.createCheckout = catchAsync(async (req, res) => {
   try {
@@ -40,7 +38,7 @@ exports.createCheckout = catchAsync(async (req, res) => {
       const new_order_id = last_order_id ? last_order_id.order_id + 1 : 1;
       const order = new Order({
         order_id: new_order_id,
-        userId:req.user.userId,
+        user_id:req.user._id,
         order_items:JSON.stringify(req.body.items),
       });
       await order.save();
@@ -58,6 +56,27 @@ exports.createCheckout = catchAsync(async (req, res) => {
   catch (err) {
     res.status(err.statusCode || 500).json(err.message)
   }
-})
+});
+
+exports.myorders = catchAsync(async (req, res) => {
+  try {
+      const records = await Order.find({"userId":req.user.userId});
+      if (records.length > 0) {
+          res.json({
+              list: records,
+              status: true,
+          });
+      } else {
+          res.json({
+              list: [],
+              status: true,
+          });
+      }
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
  

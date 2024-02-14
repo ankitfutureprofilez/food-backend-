@@ -15,6 +15,4 @@ router.post("/contact", contacts);
 
 router.post("/search", search);
 
-
-
 module.exports= router;
