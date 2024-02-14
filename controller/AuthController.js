@@ -16,6 +16,7 @@ const signToken = async (payload) => {
 }
 
 exports.signup = catchAsync(async (req, res) => {
+  console.log("req", req.body)
   const { firstName, lastName, email, password, confirmPassword,image } = req.body;
   const lastuserId = await User.findOne({}, "resId").sort({ userId: -1 });
   let newUserId;
