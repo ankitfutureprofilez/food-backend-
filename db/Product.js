@@ -7,7 +7,7 @@ const productSchema = mongoose.Schema({
   price: String,
   description: String,
   userId: String,
-  resId: String
+  rest: { type: mongoose.Schema.Types.ObjectId, ref: 'restaurants' },
 });
 
 // productSchema.virtual('permalink').get(function() {

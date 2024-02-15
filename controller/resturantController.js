@@ -33,7 +33,7 @@ exports.addRestaurant = catchAsync(async (req, res) => {
         location: location,
         description: description,
         image: image,
-        id: newUserId,
+        resId: newUserId,
         userId: req.user && req.user._id,
         category: category,
         staff: staff,
