@@ -4,8 +4,6 @@ const Stripe = require("stripe");
 
  /***** payment getWay */
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
-
- 
 exports.createCheckout = catchAsync(async (req, res) => {
   try {
     // saved_order.order_id
@@ -70,6 +68,29 @@ exports.myorders = catchAsync(async (req, res) => {
           res.json({
               list: [],
               status: true,
+          });
+      }
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+exports.order_detail = catchAsync(async (req, res) => {
+  const order_id  =  req.params.order_id 
+  try {
+      const records = await Order.findOne({"order_id":order_id});
+      console.log("records", records)
+      if (records) {
+          res.json({
+              order: records,
+              status: true,
+          });
+      } else {
+          res.json({
+            msg: "Order not found !!",
+            status: true,
           });
       }
   } catch (err) {
