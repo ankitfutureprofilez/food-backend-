@@ -7,7 +7,7 @@ const schema = mongoose.Schema({
         type:String,
     },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
-    resId: String,
+    id: String,
     location: String,
     category: String,
     staff: String,

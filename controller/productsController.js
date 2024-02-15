@@ -11,6 +11,7 @@ exports.addProduct = catchAsync(async (req, res) => {
       status: false,
     });
   }
+  const resId = req?.user?.resId
   try {
     const record = new product({
       name,
@@ -19,6 +20,7 @@ exports.addProduct = catchAsync(async (req, res) => {
       description,
       image,
       userId,
+      resId 
     });
     const result = await record.save();
     res.status(200).json({

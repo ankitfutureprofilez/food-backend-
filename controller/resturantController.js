@@ -3,8 +3,6 @@ const User = require("../db/User");
 const catchAsync = require("../utils/catchAsync");
 
 exports.addRestaurant = catchAsync(async (req, res) => {
-
-    console.log("req.body", req.body);
     const userId = req.user.userId;
     if (!userId) {
         return res.status(400).json({
@@ -12,23 +10,31 @@ exports.addRestaurant = catchAsync(async (req, res) => {
             status: false,
         });
     }
-    const user = await User.findOne(req.user._id);
+    if (req.user.resId) {
+        return res.status(400).json({
+            message: "You have already registred for restaurant.",
+            status: false,
+        });
+    }
+    const user = await User.findOne({userId:req.user.userId});
+    console.log("user", user)
     const { opening_from, opening_to, ownername,image, location, restaurantname, description, category,staff, coordinates } = req.body;
-    const lastRestaurant = await Restaurant.findOne({}, "resId").sort({ resId: -1 });
+    const lastRestaurant = await Restaurant.findOne({}, "id").sort({ id: -1 });
     let newUserId;
-    if (lastRestaurant && lastRestaurant.resId !== undefined) {
-        newUserId = +lastRestaurant.resId + 1;
+    if (lastRestaurant && lastRestaurant.id !== undefined || null) {
+        newUserId = parseInt(+lastRestaurant.id + 1);
     } else {
         newUserId = 1;
     }
+    user.resId = +newUserId;
     const record = new Restaurant({
         restaurantname: restaurantname,
         ownername: ownername,
         location: location,
         description: description,
         image: image,
-        resId: newUserId,
-        userId:  req.user._id,
+        id: newUserId,
+        userId: req.user && req.user._id,
         category: category,
         staff: staff,
         opening_from: opening_from,
@@ -52,7 +58,6 @@ exports.addRestaurant = catchAsync(async (req, res) => {
         });
     }
 });
- 
 
 exports.getRestaurant = catchAsync(async (req, res) => {
     try {
@@ -74,7 +79,6 @@ exports.getRestaurant = catchAsync(async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
 
 exports.getRestaurantData = catchAsync(async (req, res) => {
     const resId  =  req.params.resId 
