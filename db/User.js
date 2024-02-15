@@ -5,13 +5,11 @@ const userschema = mongoose.Schema({
     required:[true, 'Please enter your first name.'],
     type:String,
     minLength:3,
-    maxLength:10
   },
   lastName: {
     required:[true, 'Please enter your last name.'],
     type:String,
     minLength:3,
-    maxLength:10
   },
   email: {
     type: String,
@@ -35,13 +33,13 @@ const userschema = mongoose.Schema({
 
 
 
-userschema.virtual('banner_image').get(function() {
-  const APP_URL = process.env.APP_URL || 'https://food-backend-two.vercel.app/';
-  return `${APP_URL}/uploads/${this.image}`;
-});
+// userschema.virtual('banner_image').get(function() {
+//   const APP_URL = 'https://food-backend-three.vercel.app';
+//   return `${APP_URL}/storage/${this.image}`;
+// });
 
-userschema.set('toObject', { virtuals: true });
-userschema.set('toJSON', { virtuals: true }); 
+// userschema.set('toObject', { virtuals: true });
+// userschema.set('toJSON', { virtuals: true }); 
 
 
 module.exports = mongoose.model("user",userschema)

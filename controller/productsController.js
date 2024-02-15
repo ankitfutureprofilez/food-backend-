@@ -4,7 +4,7 @@ const catchAsync = require("../utils/catchAsync");
 
 exports.addProduct = catchAsync(async (req, res) => {
   const userId = req?.user?.userId;
-  const { name, price, category, description } = req.body;
+  const { name, price, category, description ,image} = req.body;
   if (!userId) {
     return res.status(400).json({
       message: "User information not found in the request or userId is undefined",
@@ -17,7 +17,7 @@ exports.addProduct = catchAsync(async (req, res) => {
       price,
       category,
       description,
-      image: req.file ? req.file.filename : false,
+      image,
       userId,
     });
     const result = await record.save();

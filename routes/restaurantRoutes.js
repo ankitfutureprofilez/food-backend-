@@ -4,7 +4,7 @@ const { addRestaurant, getRestaurant, getRestaurantData } = require("../controll
 const upload = require("../middleware/uploadFile");
 
 // Add Restaurant 
-route.post("/add", validateToken, upload.single("image"), addRestaurant);
+route.post("/add", validateToken,  addRestaurant);
 
 // Lists of all restaurant 
 route.get("/get", getRestaurant); 

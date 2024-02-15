@@ -16,9 +16,15 @@ const signToken = async (payload) => {
 }
 
 exports.signup = catchAsync(async (req, res) => {
-  const { firstName, lastName, email, password, confirmPassword } = req.body;
-  const lastuserid = await User.find({}, "userId").sort({ userId: -1 });
-  const newUserId = lastuserid ? lastuserid.userId + 1 : 1;
+  console.log("req", req.body)
+  const { firstName, lastName, email, password, confirmPassword,image } = req.body;
+  const lastuserId = await User.findOne({}, "resId").sort({ userId: -1 });
+  let newUserId;
+  if (lastuserId && lastuserId.userId !== undefined) {
+      newUserId = +lastuserId.userId + 1;
+  } else {
+      newUserId = 1;
+  }
   let isAlready = await User.findOne({ email: email });
   if (isAlready) {
     return res.status(400).json({
@@ -33,7 +39,7 @@ exports.signup = catchAsync(async (req, res) => {
     password: password,
     confirmPassword: confirmPassword,
     userId: newUserId,
-    image: req.file ? req.file.filename : false,
+    image: image,
   });
   const result = await record.save();
   if (result) {
@@ -60,7 +66,7 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!user || !isPassword) {
     res.json({
       status: false,
-      message: "Invalid login or password"
+      message: "Invalid Email or password"
     });
   }
   const token = await signToken({
