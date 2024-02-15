@@ -2,6 +2,7 @@ const routes = require("express").Router();
 const { validateToken } = require("../controller/AuthController");
 const {
   addProduct,
+  
   productlist,
   userproductlist,
   restaurantProducts
