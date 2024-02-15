@@ -60,8 +60,7 @@ exports.createCheckout = catchAsync(async (req, res) => {
 
 exports.myorders = catchAsync(async (req, res) => {
   try {
-      const records = await Order.find({"user_id":req.user._id});
-      if (records.length > 0) {
+      const records = await Order.find({"user_id":req.user._id});    if (records.length > 0) {
           res.json({
               list: records,
               status: true,
