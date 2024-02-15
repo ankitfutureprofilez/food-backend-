@@ -23,10 +23,11 @@ exports.addRestaurant = catchAsync(async (req, res) => {
     let newUserId;
     if (lastRestaurant && lastRestaurant.id !== undefined || null) {
         newUserId = parseInt(+lastRestaurant.id + 1);
+        user.resId = parseInt(+lastRestaurant.id + 1);
     } else {
         newUserId = 1;
-    }
-    user.resId = +newUserId;
+        user.resId = 1;
+    } 
     const record = new Restaurant({
         restaurantname: restaurantname,
         ownername: ownername,
