@@ -3,9 +3,7 @@ const schema = mongoose.Schema({
     ownername: String,
     restaurantname: String,
     description: String,
-    image: {
-        type:String,
-    },
+    image: {type:String},
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
     resId: String,
     location: String,

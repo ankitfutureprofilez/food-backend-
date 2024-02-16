@@ -3,10 +3,11 @@ const catchAsync = require("../utils/catchAsync");
 const Stripe = require("stripe");
 
  /***** payment getWay */
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+
 exports.createCheckout = catchAsync(async (req, res) => {
   try {
-    // saved_order.order_id
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: "payment",
@@ -74,7 +75,6 @@ exports.myorders = catchAsync(async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
 
 exports.order_detail = catchAsync(async (req, res) => {
   const order_id  =  req.params.order_id 
