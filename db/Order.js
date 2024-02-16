@@ -13,13 +13,7 @@ const orderSchema = mongoose.Schema({
   },
   restaurent_coordinates : {
     type: String,
-    default : `
-    {
-      "coordinates": {
-        "lat": 26.9298469, "lng": 75.7853946
-      }
-    }
-  `
+    default : `{"lat": 26.9298469, "lng": 75.7853946}`
   },
   order_items:String,
   order_status:{
