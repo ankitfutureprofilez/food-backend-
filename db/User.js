@@ -35,8 +35,6 @@ const userschema = mongoose.Schema({
   },
 })
 
-
-
 // userschema.virtual('banner_image').get(function() {
 //   const APP_URL = 'https://food-backend-three.vercel.app';
 //   return `${APP_URL}/storage/${this.image}`;
