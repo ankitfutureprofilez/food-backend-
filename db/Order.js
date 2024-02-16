@@ -26,6 +26,10 @@ const orderSchema = mongoose.Schema({
     type: String,
     default :"initiated" // delivered || picked || initiated
   },
+  phone_no:{
+    type: String,
+    default : null  
+  },
   createdAt: {
     type: Date,
     default: Date.now()     
