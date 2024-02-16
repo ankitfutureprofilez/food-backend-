@@ -11,9 +11,15 @@ const orderSchema = mongoose.Schema({
     type: String,
     default : null
   },
-  distination_coordinates : {
+  restaurent_coordinates : {
     type: String,
-    default : null
+    default : `
+    {
+      "coordinates": {
+        "lat": 26.9298469, "lng": 75.7853946
+      }
+    }
+  `
   },
   order_items:String,
   order_status:{
