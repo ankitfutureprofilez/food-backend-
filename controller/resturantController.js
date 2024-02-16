@@ -90,7 +90,7 @@ exports.updateCordinates = catchAsync(async (req, res) => {
         const type = req.params.type;
         const order = await Order.findOne({"order_id" : order_id});
         console.log("req", req.body);
-        
+
         if(type == 'picked'){
             order.order_coordinates = JSON.stringify(req.body.coordinates),
             await order.save();
@@ -107,7 +107,7 @@ exports.updateCordinates = catchAsync(async (req, res) => {
                 msg: "Order has been accepted !!",
                 status: true,
             });
-        } 
+        }  
 
         if(type == 'delivered'){
             order.deliveredAt = Date.now(),

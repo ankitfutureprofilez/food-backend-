@@ -22,7 +22,7 @@ exports.createCheckout = catchAsync(async (req, res) => {
             currency: "usd", 
             product_data: {
               name: item.name,
-              images: [item.permalink],
+              images: [item.image],
             },
             unit_amount: item.price * 100, 
           },
@@ -40,6 +40,7 @@ exports.createCheckout = catchAsync(async (req, res) => {
         user_id:req.user._id,
         order_items:JSON.stringify(req.body.items),
         checkout_coordinates:req.body.coordinates,
+        phone_no:req.body.phone,
       });
       await order.save();
       res.status(200).json({
