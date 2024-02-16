@@ -9,35 +9,65 @@ exports.addRestaurant = catchAsync(async (req, res) => {
             status: false,
         });
     }
-    const { opening_from, opening_to, ownername, image, location, restaurantname, description, category, staff, coordinates } = req.body;
-    const record = new Restaurant({
-        restaurantname: restaurantname,
-        ownername: ownername,
-        location: location,
-        description: description,
-        image: image,
-        resId: '1',
-        userId: req.user && req.user._id,
-        category: category,
-        staff: staff,
-        opening_from: opening_from,
-        opening_to: opening_to,
-        coordinates:coordinates
-    });
-    const result = await record.save();
-    if (result) {
-        res.status(200).json({
-            data: result,
-            status: true,
-            message: "Restaurant added successfully !!.",
-        });
-    } else {
-        res.status(500).json({
-            error: error,
-            message: "Failed to add restaurant",
+    if (req.user.resId == null) {
+        return res.status(400).json({
+            message: "You can not process this action. Only owner can update restaurent details. ",
             status: false,
         });
     }
+
+    const { opening_from, opening_to, ownername, image, location, restaurantname, description, category, staff, coordinates } = req.body;
+    const isRestaurent = await Restaurant.findOne({"resId":'1'});
+    if(isRestaurent){
+        isRestaurent.restaurantname = restaurantname;
+        isRestaurent.ownername = ownername;
+        isRestaurent.location = location;
+        isRestaurent.coordinates = coordinates;
+        isRestaurent.description = description;
+        isRestaurent.image = image;
+        isRestaurent.resId = '1';
+        isRestaurent.userId = req.user && req.user._id;
+        isRestaurent.category = category;
+        isRestaurent.staff = staff;
+        isRestaurent.opening_from = opening_from;
+        isRestaurent.opening_to = opening_to;
+        await isRestaurent.save();
+        res.status(200).json({
+            data: isRestaurent,
+            status: true,
+            message: "Restaurant details updated successfully !!",
+        });
+    } else {
+        const record = new Restaurant({
+            restaurantname: restaurantname,
+            ownername: ownername,
+            location: location,
+            description: description,
+            image: image,
+            resId: '1',
+            userId: req.user && req.user._id,
+            category: category,
+            staff: staff,
+            opening_from: opening_from,
+            opening_to: opening_to,
+            coordinates:coordinates
+        });
+        const result = await record.save();
+        if (result) {
+            res.status(200).json({
+                data: result,
+                status: true,
+                message: "Restaurant added successfully !!.",
+            });
+        } else {
+            res.status(500).json({
+                error: error,
+                message: "Failed to add restaurant",
+                status: false,
+            });
+        }
+    }
+
 });
 
 exports.getRestaurant = catchAsync(async (req, res) => {
