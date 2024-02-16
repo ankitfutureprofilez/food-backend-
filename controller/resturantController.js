@@ -89,12 +89,22 @@ exports.updateCordinates = catchAsync(async (req, res) => {
         const order_id = req.params.order_id;
         const type = req.params.type;
         const order = await Order.findOne({"order_id" : order_id});
-        console.log("req", req.body)
+        console.log("req", req.body);
+        
         if(type == 'picked'){
             order.order_coordinates = JSON.stringify(req.body.coordinates),
             await order.save();
             res.json({
                 msg: "Order picked status has been updated !! ",
+                status: true,
+            });
+        } 
+
+        if(type == 'accepted'){
+            order. order_status = "accepted",
+            await order.save();
+            res.json({
+                msg: "Order has been accepted !!",
                 status: true,
             });
         } 
