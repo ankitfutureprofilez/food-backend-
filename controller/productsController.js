@@ -11,6 +11,8 @@ exports.addProduct = catchAsync(async (req, res) => {
       status: false,
     });
   }
+  const rest_ob = await Restaurant.find({"userId" : req?.user?._id});
+  const rest = rest_ob && rest_ob[0] && rest_ob[0]._id;
   try {
     const record = new product({
       name,
@@ -19,6 +21,7 @@ exports.addProduct = catchAsync(async (req, res) => {
       description,
       image,
       userId,
+      rest 
     });
     const result = await record.save();
     res.status(200).json({
@@ -39,7 +42,7 @@ exports.addProduct = catchAsync(async (req, res) => {
 
 exports.productlist = catchAsync (
   async (req, res) => {
-    const record = await product.find({});
+    const record = await product.find({}).populate('rest').exec();
     res.json({
       data: record,
       status: 200,

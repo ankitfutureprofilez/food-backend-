@@ -15,7 +15,11 @@ const userschema = mongoose.Schema({
     type: String,
     unique:[true, 'Username is already taken.'], 
   },
-  userId:String,
+  userId:Number,
+  resId:  {
+    type: Number,
+    default: null,
+  },
   password: {
     type:String,
     select:false

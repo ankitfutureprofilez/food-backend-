@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
+
 const productSchema = mongoose.Schema({
   name: String,
   category: String,
   image: String,
   price: String,
   description: String,
-  userId: String
+  userId: String,
+  rest: { type: mongoose.Schema.Types.ObjectId, ref: 'restaurants' },
 });
 
 // productSchema.virtual('permalink').get(function() {
