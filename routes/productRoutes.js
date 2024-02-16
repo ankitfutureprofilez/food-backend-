@@ -4,11 +4,7 @@ const {
   addProduct,
 
   productlist,
-  userproductlist,
-  restaurantProducts
 } = require("../controller/productsController");
-
-const upload = require("../middleware/uploadFile");
 
 routes.post("/uploadProduct", validateToken, addProduct);
 

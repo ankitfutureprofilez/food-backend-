@@ -46,30 +46,5 @@ exports.productlist = catchAsync (
     });
   }
 )
-
-exports.userproductlist = catchAsync (
-    async (req, res) => {
-       const userId = req.user.userId
-    const record = await product.find({userId:userId});
-      res.json({
-        data: record,
-        message: "product list",
-        status: 200,
-      });
-    }
-)
-
-exports.restaurantProducts = catchAsync (
-  async (req, res) => {
-    const res_id = req.params.res_id;
-    const restaurent = Restaurant.find("resId", res_id);
-    const products = await product.find({ "userId" : restaurent.userId});
-    res.json({
-      restaurent: restaurent,
-      products: products,
-      status: 200,
-    });
-  }
-)
-
+ 
 
