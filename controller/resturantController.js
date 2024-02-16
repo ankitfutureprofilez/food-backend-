@@ -1,4 +1,5 @@
 const Restaurant = require("../db/Restaurant");
+const Order = require("../db/Order");
 const catchAsync = require("../utils/catchAsync");
 
 exports.addRestaurant = catchAsync(async (req, res) => {
@@ -83,3 +84,33 @@ exports.getRestaurant = catchAsync(async (req, res) => {
     }
 });
 
+exports.updateCordinates = catchAsync(async (req, res) => {
+    try {
+        const order_id = req.params.order_id;
+        const type = req.params.type;
+        const order = await Order.findOne({"order_id" : order_id});
+        console.log("req", req.body)
+        if(type == 'picked'){
+            order.order_coordinates = JSON.stringify(req.body.coordinates),
+            await order.save();
+            res.json({
+                msg: "Order picked status has been updated !! ",
+                status: true,
+            });
+        } 
+
+        if(type == 'delivered'){
+            order.deliveredAt = Date.now(),
+            await order.save();
+            res.json({
+                msg: "Order picked status has been updated !! ",
+                status: true,
+            });
+        } 
+       
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+   

@@ -6,10 +6,10 @@ const schema = mongoose.Schema({
     image: {type:String},
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
     resId: String,
+    coordinates : String,
     location: String,
     category: String,
     staff: String,
-    coordinates : String,
     opening_from : String, 
     opening_to : String
 });
