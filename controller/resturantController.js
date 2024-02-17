@@ -85,6 +85,7 @@ exports.getRestaurant = catchAsync(async (req, res) => {
 });
 
 exports.updateCordinates = catchAsync(async (req, res) => {
+    console.log(req,req.body)
     try {
         const order_id = req.params.order_id;
         const type = req.params.type;
