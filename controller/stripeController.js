@@ -43,6 +43,7 @@ exports.createCheckout = catchAsync(async (req, res) => {
         order_items:JSON.stringify(req.body.items),
         checkout_coordinates:JSON.stringify(req.body.coordinates),
         phone_no:req.body.phone,
+        order_coordinates:JSON.stringify(req.body.order_coordinates),
       });
       await order.save();
       res.status(200).json({
