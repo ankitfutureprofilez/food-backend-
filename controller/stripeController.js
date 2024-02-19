@@ -2,10 +2,8 @@ const Order = require("../db/Order");
 const catchAsync = require("../utils/catchAsync");
 const Stripe = require("stripe");
 
- /***** payment getWay */
+/***** payment getWay */
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-
 exports.createCheckout = catchAsync(async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({
@@ -30,13 +28,9 @@ exports.createCheckout = catchAsync(async (req, res) => {
         };
       }),
     });
-
     if(session){ 
-      // Create website order
       const last_order_id = await Order.findOne({}, "order_id").sort({ order_id: -1 });
-      const new_order_id = last_order_id ? last_order_id.order_id + 1 : 1;
-      
-      console.log("req.body", req.body)
+      const new_order_id = last_order_id ? parseInt(+last_order_id.order_id+1) : 1;
       const order = new Order({
         order_id: new_order_id,
         user_id:req.user._id,
