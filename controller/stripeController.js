@@ -22,7 +22,7 @@ exports.createCheckout = catchAsync(async (req, res) => {
             currency: "usd", 
             product_data: {
               name: item.name,
-              images: [item.permalink],
+              images: [item.image],
             },
             unit_amount: item.price * 100, 
           },
@@ -35,11 +35,15 @@ exports.createCheckout = catchAsync(async (req, res) => {
       // Create website order
       const last_order_id = await Order.findOne({}, "order_id").sort({ order_id: -1 });
       const new_order_id = last_order_id ? last_order_id.order_id + 1 : 1;
+      
+      console.log("req.body", req.body)
       const order = new Order({
         order_id: new_order_id,
         user_id:req.user._id,
         order_items:JSON.stringify(req.body.items),
-        checkout_coordinates:req.body.coordinates,
+        checkout_coordinates:JSON.stringify(req.body.coordinates),
+        phone_no:req.body.phone,
+        order_coordinates:JSON.stringify(req.body.order_coordinates),
       });
       await order.save();
       res.status(200).json({
