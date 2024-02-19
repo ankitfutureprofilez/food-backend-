@@ -85,17 +85,13 @@ exports.getRestaurant = catchAsync(async (req, res) => {
 });
 
 exports.updateCordinates = catchAsync(async (req, res) => {
-    console.log(req,req.body)
-    try {
+    try { 
         const order_id = req.params.order_id;
         const type = req.params.type;
         const order = await Order.findOne({"order_id" : order_id});
-        console.log("req", req.body);
-
-        
 
         if(type == 'accepted'){
-            order. order_status = "accepted",
+            order.order_status = "accepted",
             await order.save();
             res.json({
                 msg: "Order has been accepted !!",
@@ -114,6 +110,7 @@ exports.updateCordinates = catchAsync(async (req, res) => {
         } 
 
         if(type == 'delivered'){
+            order.order_status = "delivered",
             order.deliveredAt = Date.now(),
             await order.save();
             res.json({
