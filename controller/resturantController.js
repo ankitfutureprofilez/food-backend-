@@ -92,14 +92,7 @@ exports.updateCordinates = catchAsync(async (req, res) => {
         const order = await Order.findOne({"order_id" : order_id});
         console.log("req", req.body);
 
-        if(type == 'picked'){
-            order.order_coordinates = JSON.stringify(req.body.coordinates),
-            await order.save();
-            res.json({
-                msg: "Order picked status has been updated !! ",
-                status: true,
-            });
-        } 
+        
 
         if(type == 'accepted'){
             order. order_status = "accepted",
@@ -110,11 +103,21 @@ exports.updateCordinates = catchAsync(async (req, res) => {
             });
         }  
 
+        if(type == 'picked'){
+            order.order_coordinates = JSON.stringify(req.body.coordinates),
+            console.log("req.body.coordinates",req.body.coordinates)
+            await order.save();
+            res.json({
+                msg: "Order picked status has been updated !! ",
+                status: true,
+            });
+        } 
+
         if(type == 'delivered'){
             order.deliveredAt = Date.now(),
             await order.save();
             res.json({
-                msg: "Order picked status has been updated !! ",
+                msg: "Order picked status has been updatedssss !! ",
                 status: true,
             });
         } 
