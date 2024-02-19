@@ -75,6 +75,26 @@ exports.myorders = catchAsync(async (req, res) => {
   }
 });
 
+exports.allorders = catchAsync(async (req, res) => {
+  try {
+      const records = await Order.find();    
+      if (records.length > 0) {
+          res.json({
+              list: records,
+              status: true,
+          });
+      } else {
+          res.json({
+              list: [],
+              status: true,
+          });
+      }
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 exports.order_detail = catchAsync(async (req, res) => {
   const order_id  =  req.params.order_id 
   try {
