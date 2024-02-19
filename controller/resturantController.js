@@ -100,8 +100,8 @@ exports.updateCordinates = catchAsync(async (req, res) => {
         }  
 
         if(type == 'picked'){
+            order.order_status = "picked",
             order.order_coordinates = JSON.stringify(req.body.coordinates),
-            console.log("req.body.coordinates",req.body.coordinates)
             await order.save();
             res.json({
                 msg: "Order picked status has been updated !! ",
@@ -114,10 +114,11 @@ exports.updateCordinates = catchAsync(async (req, res) => {
             order.deliveredAt = Date.now(),
             await order.save();
             res.json({
-                msg: "Order picked status has been updatedssss !! ",
+                msg: "Order picked status has been updated !! ",
                 status: true,
             });
         } 
+        
        
     } catch (err) {
         console.error(err);
