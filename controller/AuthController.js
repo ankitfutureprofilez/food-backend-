@@ -69,8 +69,9 @@ exports.login = catchAsync(async (req, res, next) => {
     });
   }
   const token = await signToken({
-    id: user._id
+    id: user && user._id 
   });
+
   res.json({
     status: true,
     message: "Login Successfully !!",
