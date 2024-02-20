@@ -5,14 +5,6 @@ const catchAsync = require("../utils/catchAsync");
 exports.addProduct = catchAsync(async (req, res) => {
   const userId = req?.user?.userId;
   const { name, price, category, description ,image} = req.body;
-
-  if (req?.user.role !== 1) {
-    return res.status(400).json({
-      message: "You have not access for this action.",
-      status: false,
-    });
-  }
-
   if (!userId) {
     return res.status(400).json({
       message: "User information not found in the request or userId is undefined",
@@ -49,6 +41,7 @@ exports.addProduct = catchAsync(async (req, res) => {
 exports.productlist = catchAsync (
   async (req, res) => {
     const record = await product.find({}).populate('userId').exec();
+    console.log("record" ,record)
     res.json({
       data: record,
       status: 200,
@@ -56,4 +49,17 @@ exports.productlist = catchAsync (
   }
 )
  
+
+
+exports.newproduct = catchAsync(async (req, res) => {
+  const records = await product.find({})
+    .populate('userId')
+    .sort({ createdAt: -1 }) 
+    .limit(4);
+  console.log("records", records);
+  res.json({
+    data: records,
+    status: 200,
+  });
+});
 
