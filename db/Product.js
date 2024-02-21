@@ -7,9 +7,9 @@ const productSchema = mongoose.Schema({
   price: String,
   description: String,
   userId: String,
-  created_on: {
+  createdAt: {
     type: Date,
-    default: Date.now,
+    default: Date.now()     
   },
 });
 
