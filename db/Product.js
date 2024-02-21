@@ -7,6 +7,10 @@ const productSchema = mongoose.Schema({
   price: String,
   description: String,
   userId: String,
+  created_on: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("Product", productSchema);
