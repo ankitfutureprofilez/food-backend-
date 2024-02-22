@@ -8,15 +8,13 @@ const productSchema = mongoose.Schema({
   },
   category: String,
   image: String,
-  price: {
-    required:[true, 'Product price is invalid.'],
-    type:String,
+  price: String,
+  description: String,
+  userId: String,
+  createdAt: {
+    type: Date,
+    default: Date.now()     
   },
-  description: {
-    required:[true, 'Description can not be empty.'],
-    type:String,
-  },
-  userId: String
 });
 
 module.exports = mongoose.model("Product", productSchema);

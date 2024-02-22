@@ -90,6 +90,7 @@ exports.updateCordinates = catchAsync(async (req, res) => {
         const type = req.params.type;
         const order = await Order.findOne({"order_id" : order_id});
 
+        console.log("req.body.coordinates",req.body.coordinates)
         if(type == 'accepted'){
             order.order_status = "accepted",
             await order.save();
@@ -118,6 +119,7 @@ exports.updateCordinates = catchAsync(async (req, res) => {
                 status: true,
             });
         } 
+        
        
     } catch (err) {
         console.error(err);
