@@ -4,7 +4,15 @@ const catchAsync = require("../utils/catchAsync");
 
 exports.addProduct = catchAsync(async (req, res) => {
   const userId = req?.user?.userId;
-  const { name, price, category, description } = req.body;
+  const { name, price, category, description ,image} = req.body;
+
+  if (req?.user.role !== 1) {
+    return res.status(400).json({
+      message: "You have not access for this action.",
+      status: false,
+    });
+  }
+
   if (!userId) {
     return res.status(400).json({
       message: "User information not found in the request or userId is undefined",
@@ -17,7 +25,7 @@ exports.addProduct = catchAsync(async (req, res) => {
       price,
       category,
       description,
-      image: req.file ? req.file.filename : false,
+      image,
       userId,
     });
     const result = await record.save();
@@ -37,39 +45,15 @@ exports.addProduct = catchAsync(async (req, res) => {
   }
 });
 
+
 exports.productlist = catchAsync (
   async (req, res) => {
-    const record = await product.find({});
+    const record = await product.find({}).populate('userId').exec();
     res.json({
       data: record,
       status: 200,
     });
   }
 )
-
-exports.userproductlist = catchAsync (
-    async (req, res) => {
-       const userId = req.user.userId
-    const record = await product.find({userId:userId});
-      res.json({
-        data: record,
-        message: "product list",
-        status: 200,
-      });
-    }
-)
-
-exports.restaurantProducts = catchAsync (
-  async (req, res) => {
-    const res_id = req.params.res_id;
-    const restaurent = Restaurant.find("resId", res_id);
-    const products = await product.find({ "userId" : restaurent.userId});
-    res.json({
-      restaurent: restaurent,
-      products: products,
-      status: 200,
-    });
-  }
-)
-
+ 
 

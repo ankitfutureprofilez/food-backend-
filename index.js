@@ -27,9 +27,13 @@ const path = require('path');
 // app.use('/uploads', express.static(path.join(__dirname, 'storage')));
 
 app.use('/storage', express.static(path.join(__dirname, 'storage')));
+
 app.use("/product", require("./routes/productRoutes"));
+
 app.use("/user", require("./routes/userRoutes"));
+
 app.use("/restaurant", require("./routes/restaurantRoutes"));
+
 app.use("/stripe", require("./routes/stripeRoutes"));
 
 const PORT = process.env.REACT_APP_SERVER_DOMIN;

@@ -16,12 +16,11 @@ const signToken = async (payload) => {
 }
 
 exports.signup = catchAsync(async (req, res) => {
-  console.log("req", req.body)
   const { firstName, lastName, email, password, confirmPassword,image } = req.body;
-  const lastuserId = await User.findOne({}, "resId").sort({ userId: -1 });
+  const lastuserId = await User.findOne({}, "userId").sort({ userId: -1 });
   let newUserId;
   if (lastuserId && lastuserId.userId !== undefined) {
-      newUserId = +lastuserId.userId + 1;
+      newUserId =  parseInt(lastuserId.userId + 1);
   } else {
       newUserId = 1;
   }
@@ -70,8 +69,9 @@ exports.login = catchAsync(async (req, res, next) => {
     });
   }
   const token = await signToken({
-    id: user._id
+    id: user && user._id 
   });
+
   res.json({
     status: true,
     message: "Login Successfully !!",

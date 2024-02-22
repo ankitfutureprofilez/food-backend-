@@ -1,5 +1,5 @@
 const Restaurant = require("../db/Restaurant");
-const User = require("../db/User");
+const Order = require("../db/Order");
 const catchAsync = require("../utils/catchAsync");
 
 exports.addRestaurant = catchAsync(async (req, res) => {
@@ -10,77 +10,118 @@ exports.addRestaurant = catchAsync(async (req, res) => {
             status: false,
         });
     }
-    const user = await User.findOne(req.user._id);
-    const { opening_from, opening_to, ownername, location, restaurantname, description, category,staff, coordinates } = req.body;
-    const lastRestaurant = await Restaurant.findOne({}, "resId").sort({ resId: -1 });
-    let newUserId;
-    if (lastRestaurant && lastRestaurant.resId !== undefined) {
-        newUserId = +lastRestaurant.resId + 1;
-    } else {
-        newUserId = 1;
-    }
-    const record = new Restaurant({
-        restaurantname: restaurantname,
-        ownername: ownername,
-        location: location,
-        description: description,
-        image: req.file ? req.file.filename : false,
-        resId: newUserId,
-        userId: userId,
-        category: category,
-        staff: staff,
-        opening_from: opening_from,
-        opening_to: opening_to,
-        coordinates:coordinates
-    });
-    const result = await record.save();
-    user.role = 1;
-    await user.save({validateBeforeSave:false});
-    if (result) {
-        res.status(200).json({
-            data: result,
-            status: true,
-            message: "Restaurant added successfully !!.",
-        });
-    } else {
-        res.status(500).json({
-            error: error,
-            message: "Failed to add restaurant",
+    if (req.user.resId == null) {
+        return res.status(400).json({
+            message: "You can not process this action. Only owner can update restaurent details. ",
             status: false,
         });
     }
+
+    const { opening_from, opening_to, ownername, image, location, restaurantname, description, category, staff, coordinates } = req.body;
+    const isRestaurent = await Restaurant.findOne({"resId":'1'});
+    if(isRestaurent){
+        isRestaurent.restaurantname = restaurantname;
+        isRestaurent.ownername = ownername;
+        isRestaurent.location = location;
+        isRestaurent.coordinates = coordinates;
+        isRestaurent.description = description;
+        isRestaurent.image = image;
+        isRestaurent.resId = '1';
+        isRestaurent.userId = req.user && req.user._id;
+        isRestaurent.category = category;
+        isRestaurent.staff = staff;
+        isRestaurent.opening_from = opening_from;
+        isRestaurent.opening_to = opening_to;
+        await isRestaurent.save();
+        res.status(200).json({
+            data: isRestaurent,
+            status: true,
+            message: "Restaurant details updated successfully !!",
+        });
+    } else {
+        const record = new Restaurant({
+            restaurantname: restaurantname,
+            ownername: ownername,
+            location: location,
+            description: description,
+            image: image,
+            resId: '1',
+            userId: req.user && req.user._id,
+            category: category,
+            staff: staff,
+            opening_from: opening_from,
+            opening_to: opening_to,
+            coordinates:coordinates
+        });
+        const result = await record.save();
+        if (result) {
+            res.status(200).json({
+                data: result,
+                status: true,
+                message: "Restaurant added successfully !!.",
+            });
+        } else {
+            res.status(500).json({
+                error: error,
+                message: "Failed to add restaurant",
+                status: false,
+            });
+        }
+    }
+
 });
- 
 
 exports.getRestaurant = catchAsync(async (req, res) => {
-    const record = await Restaurant.find({});
-    if (record) {
+    try {
+        const records = await Restaurant.findOne({"resId" : 1}).populate('userId').exec();
         res.json({
-            list: record,
+            record: records,
             status: true,
         });
-    } else {
-        res.json({
-            list: [],
-            status: true,
-        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
+exports.updateCordinates = catchAsync(async (req, res) => {
+    try { 
+        const order_id = req.params.order_id;
+        const type = req.params.type;
+        const order = await Order.findOne({"order_id" : order_id});
 
-exports.getRestaurantData = catchAsync(async (req, res) => {
-    const resId  =  req.params.resId 
-    const record = await Restaurant.find({resId :resId});
-    if (record) {
-        res.json({
-            record: record,
-            status: true,
-        });
-    } else {
-        res.json({
-            msg: "Record not found !!.",
-            status: false,
-        });
+        if(type == 'accepted'){
+            order.order_status = "accepted",
+            await order.save();
+            res.json({
+                msg: "Order has been accepted !!",
+                status: true,
+            });
+        }  
+
+        if(type == 'picked'){
+            order.order_status = "picked",
+            order.order_coordinates = JSON.stringify(req.body.coordinates),
+            await order.save();
+            res.json({
+                msg: "Order picked status has been updated !! ",
+                status: true,
+            });
+        } 
+
+        if(type == 'delivered'){
+            order.order_status = "delivered",
+            order.deliveredAt = Date.now(),
+            await order.save();
+            res.json({
+                msg: "Order picked status has been updated !! ",
+                status: true,
+            });
+        } 
+       
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-})
-
+});
+   

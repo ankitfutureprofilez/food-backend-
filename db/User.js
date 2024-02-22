@@ -15,7 +15,11 @@ const userschema = mongoose.Schema({
     type: String,
     unique:[true, 'Username is already taken.'], 
   },
-  userId:String,
+  userId:Number,
+  resId:  {
+    type: Number,
+    default: null,
+  },
   password: {
     type:String,
     select:false
@@ -30,8 +34,6 @@ const userschema = mongoose.Schema({
     default: 0,
   },
 })
-
-
 
 // userschema.virtual('banner_image').get(function() {
 //   const APP_URL = 'https://food-backend-three.vercel.app';

@@ -11,8 +11,13 @@ const schema = mongoose.Schema({
         minLength:3,
     },
     description: String,
-    image: {
+    image: {type:String},
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+    resId: String,
+    location: {
+        required:[true, 'Please enter restaurant location.'],
         type:String,
+        minLength:3,
     },
     userId: String,
     resId: String,
@@ -40,13 +45,12 @@ const schema = mongoose.Schema({
     },
 });
 
-schema.virtual('banner_image').get(function() {
-    
-    const APP_URL = process.env.APP_URL || 'https://food-backend-three.vercel.app/';
-    return `${APP_URL}/uploads/${this.image}`;
-});
+// schema.virtual('banner_image').get(function() {
+//     const APP_URL = process.env.APP_URL || 'https://food-backend-three.vercel.app/';
+//     return `${APP_URL}/uploads/${this.image}`;
+// });
 
-schema.set('toObject', { virtuals: true });
-schema.set('toJSON', { virtuals: true }); 
+// schema.set('toObject', { virtuals: true });
+// schema.set('toJSON', { virtuals: true }); 
 
 module.exports = mongoose.model("restaurants", schema);
