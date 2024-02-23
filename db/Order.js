@@ -22,7 +22,8 @@ const orderSchema = mongoose.Schema({
   },
   phone_no:{
     type: String,
-    default : null  
+    default : null,
+    maxLength: 10
   },
   createdAt: {
     type: Date,
