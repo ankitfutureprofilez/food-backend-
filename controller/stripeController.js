@@ -56,6 +56,7 @@ exports.createCheckout = catchAsync(async (req, res) => {
 exports.payment_done = catchAsync(async (req, res) => {
     const order_id = req.params.order_id;
     const order = await Order.findOne({"order_id" : order_id});
+    console.log("order", order)
     if(order.order_status == 'initiated'){
       order.payment_status = "ok",
       await order.save();
