@@ -55,17 +55,23 @@ exports.createCheckout = catchAsync(async (req, res) => {
 exports.payment_done = catchAsync(async (req, res) => {
     const order_id = req.params.order_id;
     const order = await Order.findOne({"order_id" : order_id});
-    console.log("order", order)
-    if(order.order_status == 'initiated'){
-      order.payment_status = "ok",
-      await order.save();
+    if(order){
+      if(order.order_status == 'initiated'){
+        order.payment_status = "ok",
+        await order.save();
+        res.json({
+            msg: "Order has been placed successfully !!",
+            status: true,
+        });
+      } else {
+        res.json({
+          msg: "Order has been updated already.",
+          status: false,
+        });
+      }
+    } else { 
       res.json({
-          msg: "Order has been placed successfully !!",
-          status: true,
-      });
-    } else {
-      res.json({
-        msg: "Order has been updated already.",
+        msg: "Order not found.",
         status: false,
       });
     }
@@ -74,16 +80,24 @@ exports.payment_done = catchAsync(async (req, res) => {
 exports.payment_cancel = catchAsync(async (req, res) => {
     const order_id = req.params.order_id;
     const order = await Order.findOne({"order_id" : order_id});
-    if(order.order_status == 'initiated'){
-      order.payment_status = "cancel",
-      await order.save();
+    if(order){
+      if(order.order_status == 'initiated'){
+        order.payment_status = "cancel",
+        await order.save();
+        res.json({
+            msg: "Your payment for this order is failed.",
+            status: true,
+        });
+      } else {
+        res.json({
+          msg: "Order has been updated already.",
+          status: false,
+        });
+      }
+    }
+    else {
       res.json({
-          msg: "Your payment for this order is failed.",
-          status: true,
-      });
-    } else {
-      res.json({
-        msg: "Order has been updated already.",
+        msg: "Order not found.",
         status: false,
       });
     }
