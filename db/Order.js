@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 
 const orderSchema = mongoose.Schema({
-  order_id: String,
+  order_id: {
+    type: Number,
+    default : 1
+  },
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
   checkout_coordinates : {
     type: String,
