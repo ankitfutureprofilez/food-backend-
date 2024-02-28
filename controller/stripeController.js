@@ -6,11 +6,29 @@ const Stripe = require("stripe");
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 exports.createCheckout = catchAsync(async (req, res) => {
   try {
-    const session = await stripe.checkout.sessions.create({
+
+    const last_order_id = await Order.findOne({}, "order_id").sort({ order_id: -1 });
+    const new_order_id = last_order_id ? parseInt(+last_order_id.order_id + 1) : 1;
+    const order = new Order({
+      order_id: new_order_id,
+      user_id:req.user._id,
+      order_items:JSON.stringify(req.body.items),
+      checkout_coordinates:JSON.stringify(req.body.coordinates),
+      phone_no:req.body.phone,
+      order_coordinates:JSON.stringify(req.body.order_coordinates),
+    });
+
+    await order.save();
+    res.status(200).json({
+      url:session.url,
+      status:'true'
+    });
+
+    await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: "payment",
-      success_url: `${process.env.FRONTEND_URL}/success`,
-      cancel_url: `${process.env.FRONTEND_URL}/cancel`,
+      success_url: `${process.env.FRONTEND_URL}/success/${order.order_id}`,
+      cancel_url: `${process.env.FRONTEND_URL}/cancel/${order.order_id}`,
       submit_type: 'pay',
       customer_email:'naveen@internetbusinesssolutionsindia.com',
       billing_address_collection: "auto",
@@ -28,33 +46,47 @@ exports.createCheckout = catchAsync(async (req, res) => {
         };
       }),
     });
-    if(session){ 
-      const last_order_id = await Order.findOne({}, "order_id").sort({ order_id: -1 });
-      const new_order_id = last_order_id ? parseInt(+last_order_id.order_id + 1) : 1;
-      console.log("new_order_id",new_order_id)
-      const order = new Order({
-        order_id: new_order_id,
-        user_id:req.user._id,
-        order_items:JSON.stringify(req.body.items),
-        checkout_coordinates:JSON.stringify(req.body.coordinates),
-        phone_no:req.body.phone,
-        order_coordinates:JSON.stringify(req.body.order_coordinates),
-      });
-      await order.save();
-      res.status(200).json({
-        url:session.url,
-        status:'true'
-      });
-    } else { 
-      res.status(200).json({
-        msg:'payment failed.',
-        status:'false'
-      })
-    }
+    
   }
   catch (err) {
     res.status(err.statusCode || 500).json(err.message)
   }
+});
+
+exports.payment_done = catchAsync(async (req, res) => {
+    const order_id = req.params.order_id;
+    const order = await Order.findOne({"order_id" : order_id});
+    if(order.order_status == 'initiated'){
+      order.payment_status = "ok",
+      await order.save();
+      res.json({
+          msg: "Order has been placed successfully !!",
+          status: true,
+      });
+    } else {
+      res.json({
+        msg: "Order has been updated already.",
+        status: false,
+      });
+    }
+});
+
+exports.payment_cancel = catchAsync(async (req, res) => {
+    const order_id = req.params.order_id;
+    const order = await Order.findOne({"order_id" : order_id});
+    if(order.order_status == 'initiated'){
+      order.payment_status = "cancel",
+      await order.save();
+      res.json({
+          msg: "Your payment for this order is failed.",
+          status: true,
+      });
+    } else {
+      res.json({
+        msg: "Order has been updated already.",
+        status: false,
+      });
+    }
 });
 
 exports.myorders = catchAsync(async (req, res) => {

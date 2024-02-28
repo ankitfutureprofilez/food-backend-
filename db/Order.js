@@ -25,6 +25,10 @@ const orderSchema = mongoose.Schema({
     default : null,
     maxLength: 10
   },
+  payment_status:{
+    type: String,
+    default : 'Pending',
+  },
   createdAt: {
     type: Date,
     default: Date.now()     
