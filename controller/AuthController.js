@@ -26,9 +26,9 @@ exports.signup = catchAsync(async (req, res) => {
   }
   let isAlready = await User.findOne({ email: email });
   if (isAlready) {
-    return res.status(400).json({
+    return res.status(200).json({
+      status: false,
       message: "That user already exisits!",
-      status: true,
     });
   }
   const record = new User({
