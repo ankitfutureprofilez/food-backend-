@@ -17,14 +17,9 @@ exports.createCheckout = catchAsync(async (req, res) => {
       phone_no:req.body.phone,
       order_coordinates:JSON.stringify(req.body.order_coordinates),
     });
-
     await order.save();
-    res.status(200).json({
-      url:session.url,
-      status:'true'
-    });
 
-    await stripe.checkout.sessions.create({
+    const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: "payment",
       success_url: `${process.env.FRONTEND_URL}/success/${order.order_id}`,
@@ -46,7 +41,11 @@ exports.createCheckout = catchAsync(async (req, res) => {
         };
       }),
     });
-    
+
+    res.status(200).json({
+      url:session.url,
+      status:'true'
+    });
   }
   catch (err) {
     res.status(err.statusCode || 500).json(err.message)
