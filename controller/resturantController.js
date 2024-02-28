@@ -99,7 +99,6 @@ exports.updateCordinates = catchAsync(async (req, res) => {
                 status: true,
             });
         }  
-
         if(type == 'picked'){
             order.order_status = "picked",
             order.order_coordinates = JSON.stringify(req.body.coordinates),
