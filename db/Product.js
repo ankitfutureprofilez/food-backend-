@@ -13,7 +13,7 @@ const productSchema = mongoose.Schema({
   userId: String,
   createdAt: {
     type: Date,
-    default: Date.now()     
+    default: Date.now    
   },
 });
 
