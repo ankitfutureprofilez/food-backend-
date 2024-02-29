@@ -6,7 +6,6 @@ const AppError = require("../utils/AppError");
 const SECRET_ACCESS = process.env && process.env.SECRET_ACCESS;
 const key = process && process.env && process.env.SECRET_ACCESS;
 
-
 // Email template
 function PasswordResetEmail() {
   return `
