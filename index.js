@@ -5,8 +5,7 @@ const corsOptions = {
   origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, 
-};
-
+}; 
 
 const bodyParser = require('body-parser');
 // app.use(bodyParser.urlencoded({ extended: false }));
