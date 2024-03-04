@@ -2,6 +2,39 @@ const Order = require("../db/Order");
 const catchAsync = require("../utils/catchAsync");
 const Stripe = require("stripe");
 
+// Email logic
+const nodemailer = require("nodemailer");
+const Password = require("../db/Password");
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  // host: "smtp.forwardemail.net",
+  port: 25,
+  secure: false,
+  auth: {
+    // TODO: replace `user` and `pass` values from <https://forwardemail.net>
+    user: process.env.USER,
+    pass: process.env.APP_PASSWORD,
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
+
+const sendMail = async (transporter, mailOptions, res) => {
+  try {
+    const test = await transporter.sendMail(mailOptions);
+    if (test.messageId) {
+       return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log("mail error ", error);
+    return false;
+  }
+};
+
+
 /***** payment getWay */
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 exports.createCheckout = catchAsync(async (req, res) => {
@@ -55,12 +88,35 @@ exports.createCheckout = catchAsync(async (req, res) => {
 exports.payment_done = catchAsync(async (req, res) => {
     const order_id = req.params.order_id;
     const order = await Order.findOne({"order_id" : order_id});
+    const mailOptions = {
+      from: process.env.USER, // sender address
+      to: user.email, // list of receivers
+      subject: "Order Placed", // Subject line
+      // text: `Hello ${user.firstName}. Please click on this link to change pasword- ${link}`, // plain text body
+  
+      html: `
+      <html lang="en-US">
+    <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+    <div style="margin:50px auto;width:70%;padding:20px 0">
+      <div style="border-bottom:1px solid #eee">
+      <a href="https://food-fp.netlify.app/" title="logo" target="_blank">
+      <img width="60" src="https://food-fp.netlify.app/logo.png" title="logo" alt="logo" />
+    </a>
+      </div>
+      <p style="font-size:1.1em">Hi user,</p>
+      <p>Your Order is placed</p>
+    </div>
+  </div>
+      </html>
+      `,
+    };
     if(order){
       if(order.order_status == 'initiated'){
         order.payment_status = "ok",
         await order.save();
+        const sendMailResponse= await sendMail(transporter, mailOptions, res);//Email sent
         res.json({
-            msg: "Order has been placed successfully !!",
+            msg: "Order has been placed successfully and email also sent!!",
             status: true,
         });
       } else {

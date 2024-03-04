@@ -7,143 +7,137 @@ const SECRET_ACCESS = process.env && process.env.SECRET_ACCESS;
 const key = process && process.env && process.env.SECRET_ACCESS;
 
 // Email template
-function PasswordResetEmail() {
-  return `
-    <html lang="en-US">
-      <head>
-        <meta content="text/html; charset=utf-8" httpEquiv="Content-Type" />
-        <meta name="description" content="Reset Password Email Template." />
-        <style>
-          
-        </style>
-      </head>
-      <body style={{ margin: '0px', backgroundColor: '#f2f3f8' }}>
-        {/* 100% body table */}
-        <table
-          cellSpacing="0"
-          border="0"
-          cellPadding="0"
-          width="100%"
-          bgcolor="#f2f3f8"
-          style={{
-            fontFamily: "'Open Sans', sans-serif",
-          }}
-        >
-          <tr>
-            <td>
-              <table
-                style={{
-                  backgroundColor: '#f2f3f8',
-                  maxWidth: '670px',
-                  margin: '0 auto',
-                }}
-                width="100%"
-                border="0"
-                align="center"
-                cellPadding="0"
-                cellSpacing="0"
-              >
-                <tr>
-                  <td style={{ height: '80px' }}>&nbsp;</td>
-                </tr>
-                <tr>
-                  <td style={{ textAlign: 'center' }}>
-                    <a href="https://rakeshmandal.com" title="logo" target="_blank">
-                      <img width="60" src="https://food-fp.netlify.app/logo.png" title="logo" alt="logo" />
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td style={{ height: '20px' }}>&nbsp;</td>
-                </tr>
-                <tr>
-                  <td>
-                    <table
-                      width="95%"
-                      border="0"
-                      align="center"
-                      cellPadding="0"
-                      cellSpacing="0"
-                      style={{
-                        maxWidth: '670px',
-                        backgroundColor: '#fff',
-                        borderRadius: '3px',
-                        textAlign: 'center',
-                        boxShadow: '0 6px 18px 0 rgba(0,0,0,.06)',
-                      }}
-                    >
-                      <tr>
-                        <td style={{ height: '40px' }}>&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td style={{ padding: '0 35px' }}>
-                          <h1 style={{ color: '#1e1e2d', fontWeight: 500, margin: '0', fontSize: '32px', fontFamily: 'Rubik, sans-serif' }}>
-                            You have requested to reset your password
-                          </h1>
-                          <span
-                            style={{
-                              display: 'inline-block',
-                              verticalAlign: 'middle',
-                              margin: '29px 0 26px',
-                              borderBottom: '1px solid #cecece',
-                              width: '100px',
-                            }}
-                          />
-                          <p style={{ color: '#455056', fontSize: '15px', lineHeight: '24px', margin: '0' }}>
-                            We cannot simply send you your old password. A unique link to reset your password has been generated for you. To reset your password, click the following link and follow the instructions.
-                          </p>
-                          <a
-                            href="javascript:void(0);"
-                            style={{
-                              background: '#20e277',
-                              textDecoration: 'none',
-                              fontWeight: '500',
-                              marginTop: '35px',
-                              color: '#fff',
-                              textTransform: 'uppercase',
-                              fontSize: '14px',
-                              padding: '10px 24px',
-                              display: 'inline-block',
-                              borderRadius: '50px',
-                            }}
-                          >
-                            Reset Password
-                          </a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style={{ height: '40px' }}>&nbsp;</td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td style={{ height: '20px' }}>&nbsp;</td>
-                </tr>
-                <tr>
-                  <td style={{ textAlign: 'center' }}>
-                    <p style={{ fontSize: '14px', color: 'rgba(69, 80, 86, 0.7411764705882353)', lineHeight: '18px', margin: '0 0 0' }}>
-                      &copy; <strong>www.rakeshmandal.com</strong>
-                    </p>
-                  </td>
-                </tr>
-                <tr>
-                  <td style={{ height: '80px' }}>&nbsp;</td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
-        {/* /100% body table */}
-      </body>
-    </html>
-    `
-}
-
-
+// const  PasswordResetEmail  = `
+//     <html lang="en-US">
+//       <head>
+//         <meta content="text/html; charset=utf-8" httpEquiv="Content-Type" />
+//         <meta name="description" content="Reset Password Email Template." />
+//         <style>
+//         </style>
+//       </head>
+//       <body style={{ margin: '0px', backgroundColor: '#f2f3f8' }}>
+//         <table
+//           cellSpacing="0"
+//           border="0"
+//           cellPadding="0"
+//           width="100%"
+//           bgcolor="#f2f3f8"
+//           style={{
+//             fontFamily: "'Open Sans', sans-serif",
+//           }}
+//         >
+//           <tr>
+//             <td>
+//               <table
+//                 style={{
+//                   backgroundColor: '#f2f3f8',
+//                   maxWidth: '670px',
+//                   margin: '0 auto',
+//                 }}
+//                 width="100%"
+//                 border="0"
+//                 align="center"
+//                 cellPadding="0"
+//                 cellSpacing="0"
+//               >
+//                 <tr>
+//                   <td style={{ height: '80px' }}>&nbsp;</td>
+//                 </tr>
+//                 <tr>
+//                   <td style={{ textAlign: 'center' }}>
+//                     <a href="https://food-fp.netlify.app/" title="logo" target="_blank">
+//                       <img width="60" src="https://food-fp.netlify.app/logo.png" title="logo" alt="logo" />
+//                     </a>
+//                   </td>
+//                 </tr>
+//                 <tr>
+//                   <td style={{ height: '20px' }}>&nbsp;</td>
+//                 </tr>
+//                 <tr>
+//                   <td>
+//                     <table
+//                       width="95%"
+//                       border="0"
+//                       align="center"
+//                       cellPadding="0"
+//                       cellSpacing="0"
+//                       style={{
+//                         maxWidth: '670px',
+//                         backgroundColor: '#fff',
+//                         borderRadius: '3px',
+//                         textAlign: 'center',
+//                         boxShadow: '0 6px 18px 0 rgba(0,0,0,.06)',
+//                       }}
+//                     >
+//                       <tr>
+//                         <td style={{ height: '40px' }}>&nbsp;</td>
+//                       </tr>
+//                       <tr>
+//                         <td style={{ padding: '0 35px' }}>
+//                           <h1 style={{ color: '#1e1e2d', fontWeight: 500, margin: '0', fontSize: '32px', fontFamily: 'Rubik, sans-serif' }}>
+//                            ${name} You have requested to reset your password
+//                           </h1>
+//                           <span
+//                             style={{
+//                               display: 'inline-block',
+//                               verticalAlign: 'middle',
+//                               margin: '29px 0 26px',
+//                               borderBottom: '1px solid #cecece',
+//                               width: '100px',
+//                             }}
+//                           />
+//                           <p style={{ color: '#455056', fontSize: '15px', lineHeight: '24px', margin: '0' }}>
+//                            OTP for password change is ${Code}. We cannot simply send you your old password.A unique link to reset your password has been generated for you. To reset your password, click the following link and follow the instructions.
+//                           </p>
+//                           <a
+//                             href="https://food-fp.netlify.app/"
+//                             style={{
+//                               background: '#20e277',
+//                               textDecoration: 'none',
+//                               fontWeight: '500',
+//                               marginTop: '35px',
+//                               color: '#fff',
+//                               textTransform: 'uppercase',
+//                               fontSize: '14px',
+//                               padding: '10px 24px',
+//                               display: 'inline-block',
+//                               borderRadius: '50px',
+//                             }}
+//                           >
+//                             Reset Password
+//                           </a>
+//                         </td>
+//                       </tr>
+//                       <tr>
+//                         <td style={{ height: '40px' }}>&nbsp;</td>
+//                       </tr>
+//                     </table>
+//                   </td>
+//                 </tr>
+//                 <tr>
+//                   <td style={{ height: '20px' }}>&nbsp;</td>
+//                 </tr>
+//                 <tr>
+//                   <td style={{ textAlign: 'center' }}>
+//                     <p style={{ fontSize: '14px', color: 'rgba(69, 80, 86, 0.7411764705882353)', lineHeight: '18px', margin: '0 0 0' }}>
+//                       &copy; <strong>https://food-fp.netlify.app/</strong>
+//                     </p>
+//                   </td>
+//                 </tr>
+//                 <tr>
+//                   <td style={{ height: '80px' }}>&nbsp;</td>
+//                 </tr>
+//               </table>
+//             </td>
+//           </tr>
+//         </table>
+//       </body>
+//     </html>
+//     `;
 
 // Email logic
 const nodemailer = require("nodemailer");
+const Password = require("../db/Password");
 const transporter = nodemailer.createTransport({
   service: "gmail",
   // host: "smtp.forwardemail.net",
@@ -155,32 +149,23 @@ const transporter = nodemailer.createTransport({
     pass: process.env.APP_PASSWORD,
   },
   tls: {
-    rejectUnauthorized: false
-  }
+    rejectUnauthorized: false,
+  },
 });
 
-const sendMail = async(transporter, mailOptions)=>{
-  try{
+const sendMail = async (transporter, mailOptions, res) => {
+  try {
     const test = await transporter.sendMail(mailOptions);
-    if(test.messageId){
-       res.json({
-        status: true,
-        message: "Mail sent !!",
-      });
+    if (test.messageId) {
+       return true;
     } else {
-      res.json({
-        status: false,
-        error: test,
-      });
+      return false;
     }
-  } catch(error){
+  } catch (error) {
     console.log("mail error ", error);
+    return false;
   }
-}
-
-
-
-
+};
 
 const signToken = async (payload) => {
   const token = jwt.sign(payload, SECRET_ACCESS, { expiresIn: "5h" });
@@ -227,7 +212,6 @@ exports.signup = catchAsync(async (req, res) => {
     });
   }
 });
-
 
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
@@ -291,11 +275,12 @@ exports.user = catchAsync(async (req, res) => {
 // Forgot Password
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   const { email } = req.body;
+  console.log("req",req);
   
   if (!email) {
     return res.status(401).json("Email is required !!");
   }
-
+  
   const user = await User.findOne({ email: email });
   
   if (!user) {
@@ -304,30 +289,106 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
       message: "Invalid Email",
     });
   }
-
-  const token = jwt.sign({ userId: user._id }, "your_secret_key", {
-    expiresIn: "1h",
-  });
-
-  const link = `${process.env.APP_URL}/passwordReset?token=${token}&id=${user._id}`;
-  const htmlContent = PasswordResetEmail;
+  let code = Math.floor(100000 + Math.random() * 900000);
+  // const htmlContent = PasswordResetEmail;
+ let link=`http://localhost:3000/resetpassword/${code}`;
   const mailOptions = {
     from: process.env.USER, // sender address
     to: user.email, // list of receivers
     subject: "Password Reset Request", // Subject line
     // text: `Hello ${user.firstName}. Please click on this link to change pasword- ${link}`, // plain text body
-    html: htmlContent, // HTML body
-  }
+
+    html: `
+    <html lang="en-US">
+  <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+  <div style="margin:50px auto;width:70%;padding:20px 0">
+    <div style="border-bottom:1px solid #eee">
+    <a href="https://food-fp.netlify.app/" title="logo" target="_blank">
+    <img width="60" src="https://food-fp.netlify.app/logo.png" title="logo" alt="logo" />
+  </a>
+    </div>
+    <p style="font-size:1.1em">Hi ${user.firstName},</p>
+    <p>Click on the link and enter the OTP available below to change password</p>
+    <p>
+    <a
+                            href=${link}
+                            style={{
+                              background: '#20e277',
+                              textDecoration: 'none',
+                              fontWeight: '500',
+                              marginTop: '35px',
+                              color: '#fff',
+                              textTransform: 'uppercase',
+                              fontSize: '14px',
+                              padding: '10px 24px',
+                              display: 'inline-block',
+                              borderRadius: '50px',
+                            }}
+                          >
+                            Reset Password
+                          </a>
+    </p>
+    <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${code}</h2>
+    <p style="font-size:0.9em;">Regards,<br />Food Truck</p>
+    <hr style="border:none;border-top:1px solid #eee" />
+  </div>
+</div>
+    </html>
+    `,
+  };
   // Send email
   try {
-   await sendMail(transporter, mailOptions);
-   res.json({
-    status: true,
-    message: "Mail sent !!",
-  });
+   const sendMailResponse= await sendMail(transporter, mailOptions, res);
+   if(sendMailResponse===false){throw error;} 
+   const record = new Password({
+      email: user.email,
+      otp: code,
+    });
+    await record.save();
+    res.json({
+      status: true,
+      message: "Mail sent !!",
+      token:code,
+    });
   } catch (error) {
-    console.error("Failed to send password reset email:", error);
-    res.status(500).json({ message: "Failed to send password reset email. Please try again later." });
+    // console.error("Failed to send password reset email:", error);
+    res.json({
+        status:false,
+        message: "Failed to send password reset email. Please try again later.",
+      });
   }
 });
 
+// Reset Password
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  const { email, otp, password } = req.body;
+  if (!email || !otp || !password) {
+    return next(new AppError("Email, OTP and password are required !!", 401));
+  }
+  const mail = await Password.findOne({ email: email });
+  const code = await Password.findOne({ otp: otp });
+  if (mail.id != code.id) {
+    res.json({
+      status: false,
+      message: "Invalid Email or OTP",
+    });
+  }
+  const result = await User.findOneAndUpdate(
+    { email: email }, // Filter
+    { $set: { password: password } }, // Update
+    { new: true } // Options: return the updated document
+  );
+  if (result) {
+    await Password.findOneAndDelete({ email: email });
+    res.json({
+      status: true,
+      message: "Password Updated Successfully!!",
+      user: result,
+    });
+  } else {
+    res.json({
+      status: false,
+      message: "Password not updated. Server Error",
+    });
+  }
+});
