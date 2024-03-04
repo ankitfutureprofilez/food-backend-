@@ -93,7 +93,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   const user = await User.findOne({ email: email });
   // const isPassword = await User.findOne({ password: password });
-  if (!user && user.password !==  password ) {
+  if (!user || user.password !==  password ) {
     res.json({
       status: false,
       message: "Invalid Email or password",
