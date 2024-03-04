@@ -91,9 +91,11 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!email || !password) {
     return next(new AppError("Email and password is required !!", 401));
   }
-  const user = await User.findOne({ email: email });
+  const user = await User.findOne({ password: password });
+  // console.log("user",user)
+  // console.log("userPassword",user.password)
   // const isPassword = await User.findOne({ password: password });
-  if (!user || user.password !==  password ) {
+  if (!user || user.email !==  email ) {
     res.json({
       status: false,
       message: "Invalid Email or password",
