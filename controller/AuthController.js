@@ -88,14 +88,17 @@ exports.signup = catchAsync(async (req, res) => {
 
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
+  // console.log("email",email)
   if (!email || !password) {
     return next(new AppError("Email and password is required !!", 401));
   }
-  const user = await User.findOne({ password: password });
+  const user = await User.findOne({email:email , password: password });
   // console.log("user",user)
   // console.log("userPassword",user.password)
   // const isPassword = await User.findOne({ password: password });
-  if (!user || user.email !==  email ) {
+  // console.log("user",user)
+  // console.log("user email",user.email)
+  if (!user ) {
     res.json({
       status: false,
       message: "Invalid Email or password",

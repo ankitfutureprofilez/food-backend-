@@ -40,7 +40,8 @@ exports.addProduct = catchAsync(async (req, res) => {
 
 exports.productlist = catchAsync (
   async (req, res) => {
-    const record = await product.find({}).populate('userId').exec();
+    const record = await product.find({})
+    // .populate('userId').exec();
     console.log("record" ,record)
     res.json({
       data: record,
