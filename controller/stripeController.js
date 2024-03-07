@@ -109,15 +109,14 @@ exports.payment_done = catchAsync(async (req, res) => {
           html:`
           <html>
           <body style="font-family: Open Sans, sans-serif;font-size:100%;font-weight:400;line-height:1.4;color:#000;">
-            <table style="margin:50px 0px 10px;background-color:#fff;padding:50px;border-radius:3px;border-top:solid 10px green">
+            <table style="margin:50px auto 10px;background-color:#fff;padding:50px;border-radius:3px;border-top:solid 10px green">
               <thead>
                 <tr>
                   <th style="text-align:left;">
                   <a href="https://food-fp.netlify.app/order_history">
-                  <img style="max-width: 150px;" src="https://food-fp.netlify.app/logo.png" alt="bachana tours">
+                  <img style="max-width: 150px;" src="https://food-fp.netlify.app/logo.png" alt="Food Truck">
                   </a>
                   </th>
-                  <th style="text-align:right;font-weight:400;">05th Apr, 2017</th>
                 </tr>
               </thead>
               <tbody>
@@ -139,7 +138,7 @@ exports.payment_done = catchAsync(async (req, res) => {
               </tbody>
               <tfooter>
                 <tr>
-                  <td colspan="2" style="font-size:14px;padding:50px 15px 0 15px;">
+                  <td colspan="2" style="font-size:14px;padding:28px 15px 0 15px;">
                     <strong style="display:block;margin:0 0 10px 0;">Regards</strong> Food Truck<br> Banipark, Pincode - 302006, Jaipur, Rajasthan, India<br><br>
                   </td>
                 </tr>
@@ -154,33 +153,32 @@ exports.payment_done = catchAsync(async (req, res) => {
         // Sending Owner Email
         const mailOptionsOwner = {
           from: process.env.USER, // sender address
-          to: "naveen@internetbusinesssolutionsindia.com", // list of receivers
+          to: "a.mathur@futureprofilez.com", // list of receivers
           subject: `Received a new order`, // Subject line
-          // text: `Hello user. Your order is placed`, // plain text body
+          // text: `Hello owner. You have a new order`, // plain text body
           html:`
           <html>
           <body style="font-family: Open Sans, sans-serif;font-size:100%;font-weight:400;line-height:1.4;color:#000;">
-            <table style="margin:50px 0px 10px;background-color:#fff;padding:50px;border-radius:3px;border-top:solid 10px green">
-              <thead>
-                <tr>
-                  <th style="text-align:left;">
-                  <a href="https://food-fp.netlify.app/order_history">
-                  <img style="max-width: 150px;" src="https://food-fp.netlify.app/logo.png" alt="bachana tours">
-                  </a>
-                  </th>
-                  <th style="text-align:right;font-weight:400;">05th Apr, 2017</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="height:35px;"></td>
-                </tr>
-                <tr>
-                  <td colspan="2" style="border: solid 1px #ddd; padding:10px 20px;">
-                    <p style="font-size:14px;margin:0 0 6px 0;"><span style="font-weight:bold;display:inline-block;min-width:150px">Order status</span><b style="color:green;font-weight:normal;margin:0">Success</b></p>
-                    <p style="font-size:14px;margin:0 0 6px 0;"><span style="font-weight:bold;display:inline-block;min-width:146px">Transaction ID</span> ${order.order_id}</p>
-                    <p style="font-size:14px;margin:0 0 0 0;"><span style="font-weight:bold;display:inline-block;min-width:146px">Order amount</span> Rs. ${totalAmount}</p>
-                  </td>
+          <table style="margin:50px auto 10px;background-color:#fff;padding:50px;border-radius:3px;border-top:solid 10px green">
+            <thead>
+              <tr>
+                <th style="text-align:left;">
+                <a href="https://food-fp.netlify.app/order_history">
+                <img style="max-width: 150px;" src="https://food-fp.netlify.app/logo.png" alt="Food Truck">
+                </a>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="height:35px;"></td>
+              </tr>
+              <tr>
+                <td colspan="2" style="border: solid 1px #ddd; padding:10px 20px;">
+                  <p style="font-size:14px;margin:0 0 6px 0;"><span style="font-weight:bold;display:inline-block;min-width:150px">Order status</span><b style="color:green;font-weight:normal;margin:0">Success</b></p>
+                  <p style="font-size:14px;margin:0 0 6px 0;"><span style="font-weight:bold;display:inline-block;min-width:146px">Transaction ID</span> ${order.order_id}</p>
+                  <p style="font-size:14px;margin:0 0 0 0;"><span style="font-weight:bold;display:inline-block;min-width:146px">Order amount</span> Rs. ${totalAmount}</p>
+                </td>
                 </tr>
                 <tr>
                   <td colspan="2" style="font-size:20px;padding:30px 15px 0 15px;">
@@ -190,7 +188,7 @@ exports.payment_done = catchAsync(async (req, res) => {
               </tbody>
               <tfooter>
                 <tr>
-                  <td colspan="2" style="font-size:14px;padding:50px 15px 0 15px;">
+                  <td colspan="2" style="font-size:14px;padding:28px 15px 0 15px;">
                     <strong style="display:block;margin:0 0 10px 0;">Regards</strong> Food Truck<br> Banipark, Pincode - 302006, Jaipur, Rajasthan, India<br><br>
                   </td>
                 </tr>

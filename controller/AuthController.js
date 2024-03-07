@@ -179,14 +179,14 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     html: `
     <html lang="en-US">
   <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
-  <div style="margin:50px auto;width:70%;padding:20px 0">
+  <div style="margin:8px;padding:20px 0">
     <div style="border-bottom:1px solid #eee">
     <a href="https://food-fp.netlify.app/" title="logo" target="_blank">
     <img width="60" src="https://food-fp.netlify.app/logo.png" title="logo" alt="logo" />
   </a>
     </div>
-    <p style="font-size:1.1em">Hi ${user.firstName},</p>
-    <p>Click on the link and enter the OTP available below to change password</p>
+    <p style="font-size: 1.2rem">Hi ${user.firstName},</p>
+    <p style="font-size: 1.2rem">Click on the link and enter the OTP available below to change password</p>
     <p>
     <a
                             href=${link}
@@ -206,7 +206,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
                             Reset Password
                           </a>
     </p>
-    <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${code}</h2>
+    <h2 style="background: #00466a;margin: 28px 0;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${code}</h2>
     <p style="font-size:0.9em;">Regards,<br />Food Truck</p>
     <hr style="border:none;border-top:1px solid #eee" />
   </div>
